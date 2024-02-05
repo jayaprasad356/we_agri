@@ -200,6 +200,12 @@ $fn = new custom_functions;
                         <span>User Plan</span>
                     </a>
                 </li>
+                <li class="treeview">
+                    <a href="recharge.php">
+                        <i class="fa fa-money"></i>
+                        <span>Recharge</span>
+                    </a>
+                </li>
             </section>
             <!-- /.sidebar -->
         </aside>
