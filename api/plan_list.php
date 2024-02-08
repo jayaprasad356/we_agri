@@ -11,17 +11,28 @@ include_once('../includes/crud.php');
 
 $db = new Database();
 $db->connect();
-if (empty($_POST['plan_id'])) {
+if (empty($_POST['user_id'])) {
     $response['success'] = false;
-    $response['message'] = "Plan ID is Empty";
+    $response['message'] = "User ID is Empty";
     print_r(json_encode($response));
     return false;
 }
 
-$plan_id = $db->escapeString($_POST['plan_id']);
+$user_id = $db->escapeString($_POST['user_id']);
+
+$sql = "SELECT * FROM users WHERE id = $user_id ";
+$db->sql($sql);
+$user = $db->getResult();
+
+if (empty($user)) {
+    $response['success'] = false;
+    $response['message'] = "User not found";
+    print_r(json_encode($response));
+    return false;
+}
 
 
-$sql = "SELECT * FROM plan WHERE id = $plan_id";
+$sql = "SELECT * FROM plan";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
