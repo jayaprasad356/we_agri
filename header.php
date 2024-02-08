@@ -207,6 +207,12 @@ $fn = new custom_functions;
                         <span>Recharge</span>
                     </a>
                 </li>
+                <li class="treeview">
+                    <a href="home_slides.php">
+                        <i class="fa fa-image"></i>
+                        <span>Home Slide</span>
+                    </a>
+                </li>
             </section>
             <!-- /.sidebar -->
         </aside>
