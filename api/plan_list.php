@@ -41,11 +41,11 @@ if ($num >= 1){
         $temp['id'] = $row['id'];
         $temp['crop'] = $row['crop'];
         $temp['price'] = $row['price'];
+        $temp['image'] = DOMAIN_URL . $row['image'];
         $temp['daily_income'] = $row['daily_income'];
         $temp['total_income'] = $row['total_income'];
         $temp['invite_bonus'] = $row['invite_bonus'];
         $temp['validity'] = $row['validity'];
-        $temp['image'] = DOMAIN_URL . $row['image'];
         $rows[] = $temp;
     }
     $response['success'] = true;
