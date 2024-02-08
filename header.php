@@ -213,6 +213,12 @@ $fn = new custom_functions;
                         <span>Home Slide</span>
                     </a>
                 </li>
+                <li class="treeview">
+                    <a href="explore.php">
+                        <i class="fa fa-adn"></i>
+                        <span>Explore</span>
+                    </a>
+                </li>
             </section>
             <!-- /.sidebar -->
         </aside>
