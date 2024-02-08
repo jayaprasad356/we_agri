@@ -189,17 +189,18 @@ $fn = new custom_functions;
                     </a>
                 </li>
                 <li class="treeview">
-                    <a href="plan.php">
-                    <i class="fa fa-calendar"></i>
-                        <span>Plan</span>
+                    <a href="#">
+                        <i class="fa fa-calendar"></i>
+                        <span>Plans</span>
+                        <i class="fa fa-angle-right pull-right"></i>
                     </a>
+                    <ul class="treeview-menu">
+                        <li><a href="plan.php"><i class="fa fa-calendar"></i>Plan</a></li>
+                        <li><a href="user_plan.php"><i class="fa fa-user"></i>User Plan</a></li>
+                        <li><a href="plan_slides.php"><i class="fa fa-image"></i>Plan Slides</a></li>
+                   </ul>
                 </li>
-                <li class="treeview">
-                    <a href="user_plan.php">
-                        <i class="fa fa-user"></i>
-                        <span>User Plan</span>
-                    </a>
-                </li>
+                
                 <li class="treeview">
                     <a href="recharge.php">
                         <i class="fa fa-money"></i>
