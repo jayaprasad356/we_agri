@@ -34,12 +34,10 @@ if (empty($user)) {
 
 $sql = "SELECT * FROM plan";
 $db->sql($sql);
-$res = $db->getResult();
+$res= $db->getResult();
 $num = $db->numRows($res);
 
 if ($num >= 1){
-    $rows = array();
-    $temp = array();
     foreach ($res as $row) {
         $temp['id'] = $row['id'];
         $temp['crop'] = $row['crop'];
@@ -52,13 +50,15 @@ if ($num >= 1){
         $rows[] = $temp;
     }
     $response['success'] = true;
-    $response['message'] = "Plan Details Retrieved Successfully";
-    $response['data'] = $res;
+    $response['message'] = "Plan Details Listed Successfully";
+    $response['data'] = $rows;
     print_r(json_encode($response));
 }
 else{
     $response['success'] = false;
-    $response['message'] = "Plan Not found";
+    $response['message'] = "plan Not found";
     print_r(json_encode($response));
 
 }
+
+
