@@ -27,18 +27,47 @@ if (isset($_POST['btnEdit'])) {
     {
 		$sql_query = "UPDATE plan SET crop='$crop',price='$price',daily_income='$daily_income',total_income='$total_income',invite_bonus='$invite_bonus',validity='$validity' WHERE id =  $ID";
 		$db->sql($sql_query);
-		$update_result = $db->getResult();
-		if (!empty($update_result)) {
-			$update_result = 0;
+		$result = $db->getResult();             
+		if (!empty($result)) {
+			$error['update_languages'] = " <span class='label label-danger'>Failed</span>";
 		} else {
-			$update_result = 1;
+			$error['update_languages'] = " <span class='label label-success'>Plans Updated Successfully</span>";
 		}
-
-		// check update result
-		if ($update_result == 1) {
-			$error['update_languages'] = " <section class='content-header'><span class='label label-success'>Plan updated Successfully</span></section>";
-		} else {
-			$error['update_languages'] = " <span class='label label-danger'>Failed to Update</span>";
+	
+		if ($_FILES['image']['size'] != 0 && $_FILES['image']['error'] == 0 && !empty($_FILES['image'])) {
+		
+			$extension = pathinfo($_FILES["image"]["name"])['extension'];
+	
+			$result = $fn->validate_image($_FILES["image"]);
+			$target_path = 'upload/images/';
+			
+			$filename = microtime(true) . '.' . strtolower($extension);
+			$full_path = $target_path . "" . $filename;
+			if (!move_uploaded_file($_FILES["image"]["tmp_name"], $full_path)) {
+				echo '<p class="alert alert-danger">Can not upload image.</p>';
+				return false;
+				exit();
+			}
+			if (!empty($old_image) && file_exists($old_image)) {
+				unlink($old_image);
+			}
+	
+			$upload_image = 'upload/images/' . $filename;
+			$sql = "UPDATE plan SET `image`='$upload_image' WHERE `id`='$ID'";
+			$db->sql($sql);
+	
+			$update_result = $db->getResult();
+			if (!empty($update_result)) {
+				$update_result = 0;
+			} else {
+				$update_result = 1;
+			}
+	
+			if ($update_result == 1) {
+				$error['update_languages'] = " <section class='content-header'><span class='label label-success'>Jobs updated Successfully</span></section>";
+			} else {
+				$error['update_languages'] = " <span class='label label-danger'>Failed to update</span>";
+			}
 		}
 	}
 }
@@ -104,7 +133,7 @@ if (isset($_POST['btnCancel'])) { ?>
                          </div>
                          <br>
                          <div class="row">
-					  	  <div class="form-group">
+					  	   <div class="form-group">
                                <div class="col-md-6">
 									<label for="exampleInputEmail1">Invite Bonus</label><i class="text-danger asterik">*</i>
 									<input type="number" class="form-control" name="invite_bonus" value="<?php echo $res[0]['invite_bonus']; ?>">
@@ -115,6 +144,15 @@ if (isset($_POST['btnCancel'])) { ?>
 								</div>
                             </div>
                          </div>
+						<div class="row">
+						 <div class="form-group">
+                                   <div class="col-md-6">
+                                    <label for="exampleInputFile">Image</label> <i class="text-danger asterik">*</i><?php echo isset($error['image']) ? $error['image'] : ''; ?>
+                                    <input type="file" name="image" onchange="readURL(this);" accept="image/png, image/jpeg" id="image" /><br>
+                                    <img id="blah" src="<?php echo $res[0]['image']; ?>" alt="" width="150" height="200" <?php echo empty($res[0]['image']) ? 'style="display: none;"' : ''; ?> />
+                                  </div>
+                               </div>
+						  </div>  
                      </div>
 					<div class="box-footer">
 						<button type="submit" class="btn btn-primary" name="btnEdit">Update</button>

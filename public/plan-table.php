@@ -28,6 +28,7 @@
                                     <th  data-field="total_income" data-sortable="true">Total Income</th>
                                     <th  data-field="invite_bonus" data-sortable="true">Invite Bonus</th>
                                     <th data-field="validity" data-sortable="true">Validity</th>
+                                    <th data-field="image">Image</th>
                                 </tr>
                             </thead>
                         </table>

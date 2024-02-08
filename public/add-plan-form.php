@@ -35,11 +35,29 @@ if (isset($_POST['btnAdd'])) {
         }
        
        
-        if (!empty($crop) && !empty($price) && !empty($daily_income) && !empty($total_income) && !empty($invite_bonus) && !empty($validity)) 
-       {
-           
-            $sql_query = "INSERT INTO plan (crop,price,daily_income,total_income,invite_bonus,validity)VALUES('$crop','$price','$daily_income','$total_income','$invite_bonus','$validity')";
-            $db->sql($sql_query);
+            // Validate and process the image upload
+    if ($_FILES['image']['size'] != 0 && $_FILES['image']['error'] == 0 && !empty($_FILES['image'])) {
+        $extension = pathinfo($_FILES["image"]["name"])['extension'];
+
+        $result = $fn->validate_image($_FILES["image"]);
+        $target_path = 'upload/images/';
+
+        $filename = microtime(true) . '.' . strtolower($extension);
+        $full_path = $target_path . "" . $filename;
+
+        if (!move_uploaded_file($_FILES["image"]["tmp_name"], $full_path)) {
+            echo '<p class="alert alert-danger">Can not upload image.</p>';
+            return false;
+            exit();
+        }
+
+        $upload_image = 'upload/images/' . $filename;
+        $sql = "INSERT INTO plan (crop, price,image,daily_income,total_income,invite_bonus,validity) VALUES ('$crop','$price', '$upload_image','$daily_income','$total_income','$invite_bonus','$validity')";
+        $db->sql($sql);
+    } else {
+            $sql_query = "INSERT INTO plan (crop, price,daily_income,total_income,invite_bonus,validity) VALUES ('$crop','$price','$daily_income','$total_income','$invite_bonus','$validity')";
+            $db->sql($sql);
+        }
             $result = $db->getResult();
             if (!empty($result)) {
                 $result = 0;
@@ -54,8 +72,8 @@ if (isset($_POST['btnAdd'])) {
             } else {
                 $error['add_languages'] = " <span class='label label-danger'>Failed</span>";
             }
-            }
-        }
+     }
+        
 ?>
 <section class="content-header">
     <h1>Add New Plan <small><a href='plan.php'> <i class='fa fa-angle-double-left'></i>&nbsp;&nbsp;&nbsp;Back to Plan</a></small></h1>
@@ -117,7 +135,16 @@ if (isset($_POST['btnAdd'])) {
                                 </div>
                             </div>
                         </div>
-
+                        <br>
+                        <div class="row">
+                            <div class="form-group">
+                                 <div class="col-md-6">
+                                    <label for="exampleInputFile">Image</label> <i class="text-danger asterisk">*</i><?php echo isset($error['image']) ? $error['image'] : ''; ?>
+                                    <input type="file" name="image" onchange="readURL(this);" accept="image/png, image/jpeg" id="image" required/><br>
+                                    <img id="blah" src="#" alt="" style="display: none; max-height: 200px; max-width: 200px;" /> <!-- Adjust max-height and max-width as needed -->
+                                 </div>
+                            </div> 
+                        </div>  
                         <br>
                     <!-- /.box-body -->
 
@@ -171,6 +198,22 @@ if (isset($_POST['btnAdd'])) {
     function refreshPage(){
     window.location.reload();
 } 
+</script>
+<script>
+function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            // Set the source of the image to the selected file
+            document.getElementById('blah').src = e.target.result;
+            // Display the image by changing its style to block
+            document.getElementById('blah').style.display = 'block';
+        };
+
+        reader.readAsDataURL(input.files[0]);
+    }
+}
 </script>
 
 <?php $db->disconnect(); ?>

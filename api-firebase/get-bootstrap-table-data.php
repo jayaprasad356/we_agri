@@ -167,6 +167,11 @@ $db->connect();
                 $tempRow['total_income'] = $row['total_income'];
                 $tempRow['invite_bonus'] = $row['invite_bonus'];
                 $tempRow['validity'] = $row['validity'];
+                if (!empty($row['image'])) {
+                    $tempRow['image'] = "<a data-lightbox='category' href='" . $row['image'] . "' data-caption='" . $row['image'] . "'><img src='" . $row['image'] . "' title='" . $row['image'] . "' height='50' /></a>";
+                } else {
+                    $tempRow['image'] = 'No Image';
+                }
                 $tempRow['operate'] = $operate;
                 $rows[] = $tempRow;
             }
@@ -328,6 +333,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'transactions') {
         $tempRow['amount'] = $row['amount'];
         $tempRow['ads'] = $row['ads'];
         $tempRow['datetime'] = $row['datetime'];
+        
         $rows[] = $tempRow;
     }
     $bulkData['rows'] = $rows;
