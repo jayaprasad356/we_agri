@@ -27,13 +27,15 @@ $num = $db->numRows($res_user);
 
 if ($num >= 1) {
 
-    $sql_transaction = "SELECT SUM(amount) AS total_amount FROM transactions WHERE user_id = $user_id AND datetime >= CURDATE() - INTERVAL 7 DAY";
+    $start_date = '2024-02-02'; 
+    $end_date = '2024-02-09';   
+
+    $sql_transaction = "SELECT SUM(amount) AS total_amount FROM transactions WHERE user_id = $user_id AND datetime >= '$start_date' AND datetime <= '$end_date'";
     $db->sql($sql_transaction);
     $res_transaction = $db->getResult();
     $total_amount = $res_transaction[0]['total_amount'];
 
-
-    $res_user[0]['last_7_days_transaction'] = $total_amount;
+    $res_user[0]['7_days_earn'] = $total_amount;
 
     $response['success'] = true;
     $response['message'] = "User Details Retrieved Successfully";
