@@ -29,6 +29,7 @@ if (isset($_POST['btnEdit'])) {
     $bank = $db->escapeString(($_POST['bank']));
     $branch = $db->escapeString(($_POST['branch']));
     $ifsc = $db->escapeString(($_POST['ifsc']));
+    $withdrawal_status = $db->escapeString($_POST['withdrawal_status']);
 
     $error = array();
 
@@ -49,7 +50,7 @@ if (isset($_POST['btnEdit'])) {
     }
 
     
-            $sql_query = "UPDATE users SET name='$name',mobile = 'mobile',email='$email',age='$age',city='$city',referred_by='$referred_by',refer_code='$refer_code',holder_name='$holder_name', bank='$bank', branch='$branch', ifsc='$ifsc', account_num='$account_num' WHERE id = $ID";
+            $sql_query = "UPDATE users SET name='$name',mobile = 'mobile',email='$email',age='$age',city='$city',referred_by='$referred_by',refer_code='$refer_code',holder_name='$holder_name', bank='$bank', branch='$branch', ifsc='$ifsc', account_num='$account_num',withdrawal_status = '$withdrawal_status' WHERE id = $ID";
             $db->sql($sql_query);
             $update_result = $db->getResult();
     
@@ -107,19 +108,19 @@ if (isset($_POST['btnCancel'])) { ?>
                 <div class="box-body">
                         <div class="row">
                               <div class="form-group">
-                              <div class="col-md-4">
+                              <div class="col-md-3">
                                     <label for="exampleInputEmail1">Name</label> <i class="text-danger asterik">*</i><?php echo isset($error['name']) ? $error['name'] : ''; ?>
                                     <input type="text" class="form-control" name="name" value="<?php echo $res[0]['name']; ?>">
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <label for="exampleInputEmail1">Email</label> <i class="text-danger asterik">*</i><?php echo isset($error['email']) ? $error['email'] : ''; ?>
                                     <input type="email" class="form-control" name="email" value="<?php echo $res[0]['email']; ?>">
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <label for="exampleInputEmail1">Age</label> <i class="text-danger asterik">*</i><?php echo isset($error['age']) ? $error['age'] : ''; ?>
                                     <input type="number" class="form-control" name="age" value="<?php echo $res[0]['age']; ?>">
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <label for="exampleInputEmail1">Mobile</label> <i class="text-danger asterik">*</i><?php echo isset($error['mobile']) ? $error['mobile'] : ''; ?>
                                     <input type="number" class="form-control" name="mobile" value="<?php echo $res[0]['mobile']; ?>">
                                 </div>
@@ -162,7 +163,7 @@ if (isset($_POST['btnCancel'])) { ?>
                         <br>
                         <div class="row">
                             <div class="form-group">
-                            <div class="col-md-4">
+                                <div class="col-md-4">
                                     <label for="exampleInputEmail1">IFSC</label><i class="text-danger asterik">*</i>
                                     <input type="text" class="form-control" name="ifsc" value="<?php echo $res[0]['ifsc']; ?>">
                                 </div>
@@ -174,8 +175,20 @@ if (isset($_POST['btnCancel'])) { ?>
                                 <label for="exampleInputEmail1">Branch</label><i class="text-danger asterik">*</i>
                                     <input type="text" class="form-control" name="branch" value="<?php echo $res[0]['branch']; ?>">
                                 </div>
+                               
+                                </div>
+                            </div>
+                            <br>
+                    <div class="row">
+                        <div class="form-group">
+                            <div class='col-md-6'>
+                              <label for="">Withdrawal Status</label><br>
+                                    <input type="checkbox" id="withdrawal_button" class="js-switch" <?= isset($res[0]['withdrawal_status']) && $res[0]['withdrawal_status'] == 1 ? 'checked' : '' ?>>
+                                    <input type="hidden" id="withdrawal_status" name="withdrawal_status" value="<?= isset($res[0]['withdrawal_status']) && $res[0]['withdrawal_status'] == 1 ? 1 : 0 ?>">
+                                </div>
                             </div>
                         </div>
+                     </div>
                         <div class="box-footer">
                         <button type="submit" class="btn btn-primary" name="btnEdit">Update</button>
                     </div>
@@ -190,5 +203,16 @@ if (isset($_POST['btnCancel'])) { ?>
 <?php $db->disconnect(); ?>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
+<script>
+    var changeCheckbox = document.querySelector('#withdrawal_button');
+    var init = new Switchery(changeCheckbox);
+    changeCheckbox.onchange = function() {
+        if ($(this).is(':checked')) {
+            $('#withdrawal_status').val(1);
 
+        } else {
+            $('#withdrawal_status').val(0);
+        }
+    };
+</script>
 

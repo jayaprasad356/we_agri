@@ -219,6 +219,12 @@ $fn = new custom_functions;
                         <span>Explore</span>
                     </a>
                 </li>
+                <li class="treeview">
+                    <a href="payment_setting.php">
+                        <i class="fa fa-image"></i>
+                        <span>Payment Setting</span>
+                    </a>
+                </li>
             </section>
             <!-- /.sidebar -->
         </aside>
