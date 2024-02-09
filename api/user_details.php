@@ -20,34 +20,28 @@ if (empty($_POST['user_id'])) {
 
 $user_id = $db->escapeString($_POST['user_id']);
 
-if (!empty($_POST['fcm_id'])) {
-    $fcm_id = $db->escapeString($_POST['fcm_id']);
+$sql_user = "SELECT * FROM users WHERE id = $user_id";
+$db->sql($sql_user);
+$res_user = $db->getResult();
+$num = $db->numRows($res_user);
+
+if ($num >= 1) {
+
+    $sql_transaction = "SELECT SUM(amount) AS total_amount FROM transactions WHERE user_id = $user_id AND datetime >= CURDATE() - INTERVAL 7 DAY";
+    $db->sql($sql_transaction);
+    $res_transaction = $db->getResult();
+    $total_amount = $res_transaction[0]['total_amount'];
 
 
-    $sql = "UPDATE users SET fcm_id='$fcm_id' WHERE id=" . $user_id;
-    $db->sql($sql);
-}
-
-
-$sql = "SELECT * FROM users WHERE id = $user_id";
-$db->sql($sql);
-$res = $db->getResult();
-$num = $db->numRows($res);
-if ($num >= 1){
-    $sql = "SELECT * FROM settings WHERE id=1";
-    $db->sql($sql);
-    $set= $db->getResult();
-    $num = $db->numRows($set);
+    $res_user[0]['last_7_days_transaction'] = $total_amount;
 
     $response['success'] = true;
     $response['message'] = "User Details Retrieved Successfully";
-    $response['data'] = $res;
-    $response['settings'] = $set;
+    $response['data'] = $res_user;
     print_r(json_encode($response));
-}
-else{
+} else {
     $response['success'] = false;
     $response['message'] = "User Not found";
     print_r(json_encode($response));
-
 }
+?>

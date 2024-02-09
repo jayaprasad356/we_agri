@@ -11,6 +11,9 @@ include_once('../includes/crud.php');
 
 $db = new Database();
 $db->connect();
+
+$response = array();
+
 if (empty($_POST['mobile'])) {
     $response['success'] = false;
     $response['message'] = "Mobile is Empty";
@@ -23,50 +26,38 @@ if (empty($_POST['device_id'])) {
     print_r(json_encode($response));
     return false;
 }
-$mobile = $db->escapeString($_POST['mobile']);
+
 $device_id = $db->escapeString($_POST['device_id']);
+$mobile = $db->escapeString($_POST['mobile']);
 
 $sql = "SELECT * FROM users WHERE mobile = '$mobile'";
 $db->sql($sql);
-$res = $db->getResult();
-$num = $db->numRows($res);
-if ($num == 1){
+$user = $db->getResult();
 
-    if ($num == 1){
-        $sql_query = "UPDATE users SET device_id = '$device_id' WHERE mobile ='$mobile' AND device_id = ''";
-        $db->sql($sql_query);
-
-
-        //$sql = "SELECT * FROM users WHERE mobile = '$mobile' AND device_id = '$device_id'";
-        $sql = "SELECT * FROM users WHERE mobile = '$mobile'";
-        $db->sql($sql);
-        $res = $db->getResult();
-        $num = $db->numRows($res);
-        if ($num == 1) {
-            $response['success'] = true;
-            $response['registered'] = true;
-            $response['message'] = "Logged In Successfully";
-            $response['data'] = $res;
-            print_r(json_encode($response));
-        } else {
-            $sql = "INSERT INTO devices (`mobile`,`device_id`) VALUES ('$mobile','$device_id')";
-            $db->sql($sql);
-           
-            $response['success'] = false;
-            $response['registered'] = false;
-            $response['message'] = "Please Login With your Device";
-            print_r(json_encode($response));
-            return false;
-        }
-    }
-            
-
-
-}
-else{
+if (empty($user)) {
     $response['success'] = false;
-    $response['registered'] = false;
-    $response['message'] = "User Credentials not match";
+    $response['message'] = "Your Mobile Number is not Registered";
     print_r(json_encode($response));
     return false;
 }
+
+$sql_query = "UPDATE users SET device_id = '$device_id' WHERE mobile ='$mobile' AND device_id = ''";
+$db->sql($sql_query);
+
+$sql = "SELECT * FROM users WHERE mobile = '$mobile' AND device_id = '$device_id'";
+$db->sql($sql);
+$res = $db->getResult();
+$num = $db->numRows($res);
+
+if ($num == 1) {     
+    $response['success'] = true;
+    $response['registered'] = true;
+    $response['message'] = "Logged In Successfully";
+    $response['data'] = $res;
+    echo json_encode($response);
+} else {
+    $response['success'] = false;
+    $response['message'] = "Device ID verification Failed";
+    echo json_encode($response);
+}
+?>

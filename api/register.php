@@ -65,17 +65,6 @@ $city = $db->escapeString($_POST['city']);
 $email = $db->escapeString($_POST['email']);
 $state = $db->escapeString($_POST['state']);
 
-// $sql = "SELECT id FROM users WHERE device_id='$device_id'";
-// $db->sql($sql);
-// $res = $db->getResult();
-// $num = $db->numRows($res);
-// if ($num >= 1) {
-//     $response['success'] = false;
-//     $response['message'] ="User Already Registered with this device kindly register with new device";
-//     print_r(json_encode($response));
-//     return false;
-// }
-
 $sql = "SELECT * FROM users WHERE mobile='$mobile'";
 $db->sql($sql);
 $res = $db->getResult();
@@ -86,9 +75,19 @@ if ($num >= 1) {
     print_r(json_encode($response));
     return false;
 } else {
-    $datetime = date('Y-m-d H:i:s');
 
-
+    if (!empty($referred_by)) {
+        $sql = "SELECT id FROM users WHERE refer_code = '$referred_by'";
+        $db->sql($sql);
+        $refres = $db->getResult();
+        $num = $db->numRows($refres);
+        if ($num == 0) {
+            $response['success'] = false;
+            $response['message'] = "Invalid Refer Code";
+            print_r(json_encode($response));
+            return false;
+        }
+    }
     $sql = "INSERT INTO users (`mobile`,`name`,`referred_by`,`account_num`,`holder_name`,`bank`,`branch`,`ifsc`,`device_id`,`age`,`city`,`email`,`state`) VALUES ('$mobile','$name','$referred_by','','','','','','$device_id','$age','$city','$email','$state')";
     $db->sql($sql);
     $sql = "SELECT * FROM users WHERE mobile = '$mobile'";
@@ -96,8 +95,7 @@ if ($num >= 1) {
     $res = $db->getResult();
     $user_id = $res[0]['id'];
     
-    
-    
+
         if(empty($referred_by)){
             $refer_code = MAIN_REFER . $user_id;
     
@@ -129,21 +127,8 @@ if ($num >= 1) {
        
         }
     
-        $sql = "SELECT id FROM `users` WHERE refer_code = '$referred_by'";
-        $db->sql($sql);
-        $refres = $db->getResult();
-        $num = $db->numRows($refres);
-        $unknown = 1;
-        if ($num >= 1){
-            $unknown = 0;
-    
-        }
         $sql_query = "UPDATE users SET refer_code='$refer_code' WHERE id =  $user_id";
         $db->sql($sql_query);
-
-    $sql = "SELECT * FROM settings";
-    $db->sql($sql);
-    $setres = $db->getResult();
 
     $sql = "SELECT * FROM users WHERE mobile = '$mobile'";
     $db->sql($sql);
@@ -152,7 +137,6 @@ if ($num >= 1) {
     $response['success'] = true;
     $response['message'] = "Successfully Registered";
     $response['data'] = $res;
-    $response['settings'] = $setres;
     print_r(json_encode($response));
 }
 ?>
