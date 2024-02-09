@@ -391,6 +391,10 @@ if (isset($_GET['table']) && $_GET['table'] == 'user_plan') {
         $tempRow['user_mobile'] = $row['user_mobile'];
         $tempRow['plan_crop'] = $row['plan_crop'];
         $tempRow['days'] = $row['days'];
+        $tempRow['price'] = $row['price'];
+        $tempRow['daily_income'] = $row['daily_income'];
+        $tempRow['total_income'] = $row['total_income'];
+        $tempRow['validity'] = $row['validity'];
         $tempRow['operate'] = $operate;
         $rows[] = $tempRow;
     }
