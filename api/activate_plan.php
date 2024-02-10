@@ -45,28 +45,53 @@ if (empty($user)) {
     print_r(json_encode($response));
     return false;
 }
+$balance = $user[0]['balance'];
 
 $sql = "SELECT * FROM plan WHERE id = $plan_id ";
 $db->sql($sql);
-$product = $db->getResult();
+$plan = $db->getResult();
 
-if (empty($product)) {
+if (empty($plan)) {
     $response['success'] = false;
     $response['message'] = "Plan not found";
     print_r(json_encode($response));
     return false;
 }
 
-$price = $product[0]['price'];
-$daily_income = $product[0]['daily_income'];
-$total_income = $product[0]['total_income'];
-$validity = $product[0]['validity'];
+$price = $plan[0]['price'];
+$daily_income = $plan[0]['daily_income'];
+$total_income = $plan[0]['total_income'];
+$validity = $plan[0]['validity'];
 
-$sql = "INSERT INTO user_plan (`user_id`,`plan_id`,`price`,`daily_income`,`total_income`,`validity`) VALUES ('$user_id','$plan_id','$price','$daily_income','$total_income','$validity')";
-$db->sql($sql);
-$res = $db->getResult();
-$response['success'] = true;
-$response['message'] = "User Plan Added Successfully";
+$datetime = date('Y-m-d H:i:s');
+
+$sql_check = "SELECT * FROM user_plan WHERE user_id = $user_id AND plan_id = $plan_id";
+$db->sql($sql_check);
+$res_check_user = $db->getResult();
+
+if (!empty($res_check_user)) {
+    $response['success'] = false;
+    $response['message'] = "You have already applied this Plan";
+    print_r(json_encode($response));
+    return false;
+}
+if ($balance >= $price) {
+    $sql = "UPDATE users SET balance = balance - $price WHERE id = $user_id";
+    $db->sql($sql);
+
+
+    $sql_insert_user_plan = "INSERT INTO user_plan (`user_id`,`plan_id`,`price`,`daily_income`,`total_income`,`validity`) VALUES ('$user_id','$plan_id','$price','$daily_income','$total_income','$validity')";
+    $db->sql($sql_insert_user_plan);
+
+     $sql_insert_transaction = "INSERT INTO transactions (`user_id`, `amount`, `datetime`, `type`) VALUES ('$user_id', '$price', '$datetime', 'purchase_plan')";
+     $db->sql($sql_insert_transaction);
+
+    $response['success'] = true;
+    $response['message'] = "Apply User Plan successfully";
+ }else {
+    $response['success'] = false;
+    $response['message'] = "Insufficient balance to apply for this plan";
+}
+
 print_r(json_encode($response));
-
 ?>
