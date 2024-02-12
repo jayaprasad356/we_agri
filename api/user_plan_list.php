@@ -30,6 +30,8 @@ $sql = "SELECT user_plan.* ,plan.image,plan.crop,plan.invite_bonus
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
+
+
 if ($num >= 1) {
     foreach ($res as &$job) {
         $imagePath = $job['image'];
@@ -50,3 +52,4 @@ else{
     print_r(json_encode($response));
 
 }
+?>

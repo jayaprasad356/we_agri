@@ -12,13 +12,12 @@ include_once('../includes/crud.php');
 $db = new Database();
 $db->connect();
 
-
-$sql = "SELECT * FROM recharge";
+$sql = "SELECT * FROM recharge ORDER BY datetime DESC"; 
 $db->sql($sql);
-$res= $db->getResult();
+$res = $db->getResult();
 $num = $db->numRows($res);
 
-if ($num >= 1){
+if ($num >= 1) {
     foreach ($res as $row) {
         $temp['id'] = $row['id'];
         $temp['user_id'] = $row['user_id'];
@@ -29,13 +28,12 @@ if ($num >= 1){
         $rows[] = $temp;
     }
     $response['success'] = true;
-    $response['message'] = "Recharge Histoy Listed Successfully";
+    $response['message'] = "Recharge History Listed Successfully";
     $response['data'] = $rows;
     print_r(json_encode($response));
-}
-else{
+} else {
     $response['success'] = false;
     $response['message'] = "Slide Not found";
     print_r(json_encode($response));
-
 }
+?>
