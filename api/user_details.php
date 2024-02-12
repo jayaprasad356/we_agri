@@ -35,7 +35,7 @@ if ($num >= 1) {
     $res_transaction = $db->getResult();
     $total_amount = $res_transaction[0]['total_amount'];
 
-    $res_user[0]['7_days_earn'] = $total_amount;
+    $res_user[0]['7_days_earn'] = $total_amount !== null ? $total_amount : 0;
 
     $response['success'] = true;
     $response['message'] = "User Details Retrieved Successfully";
