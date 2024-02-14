@@ -54,11 +54,17 @@ if (empty($_POST['state'])) {
     print_r(json_encode($response));
     return false;
 }
+if (empty($_POST['referred_by'])) {
+    $response['success'] = false;
+    $response['message'] = "Refer code is empty";
+    print_r(json_encode($response));
+    return false;
+}
 
 
 $name = $db->escapeString($_POST['name']);
 $mobile = $db->escapeString($_POST['mobile']);
-$referred_by = (isset($_POST['referred_by']) && !empty($_POST['referred_by'])) ? $db->escapeString($_POST['referred_by']) : "";
+$referred_by = $db->escapeString($_POST['referred_by']);
 $device_id = $db->escapeString($_POST['device_id']);
 $age = $db->escapeString($_POST['age']);
 $city = $db->escapeString($_POST['city']);
@@ -71,22 +77,20 @@ $res = $db->getResult();
 $num = $db->numRows($res);
 if ($num >= 1) {
     $response['success'] = false;
-    $response['message'] ="Mobile Number Already Exists";
+    $response['message'] ="Mobile Number Already Registered";
     print_r(json_encode($response));
     return false;
 } else {
 
-    if (!empty($referred_by)) {
-        $sql = "SELECT id FROM users WHERE refer_code = '$referred_by'";
-        $db->sql($sql);
-        $refres = $db->getResult();
-        $num = $db->numRows($refres);
-        if ($num == 0) {
-            $response['success'] = false;
-            $response['message'] = "Invalid Refer Code";
-            print_r(json_encode($response));
-            return false;
-        }
+    $sql = "SELECT id FROM users WHERE refer_code = '$referred_by' AND refer_code != ''";
+    $db->sql($sql);
+    $refres = $db->getResult();
+    $num = $db->numRows($refres);
+    if ($num == 0) {
+        $response['success'] = false;
+        $response['message'] = "Invalid Refer Code";
+        print_r(json_encode($response));
+        return false;
     }
     $sql = "INSERT INTO users (`mobile`,`name`,`referred_by`,`account_num`,`holder_name`,`bank`,`branch`,`ifsc`,`device_id`,`age`,`city`,`email`,`state`) VALUES ('$mobile','$name','$referred_by','','','','','','$device_id','$age','$city','$email','$state')";
     $db->sql($sql);
