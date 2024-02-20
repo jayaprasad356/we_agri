@@ -200,7 +200,12 @@ $fn = new custom_functions;
                         <li><a href="plan_slides.php"><i class="fa fa-image"></i>Plan Slides</a></li>
                    </ul>
                 </li>
-                
+                <li class="treeview">
+                    <a href="app-update.php">
+                        <i class="fa fa-bullseye"></i>
+                        <span>App Update</span>
+                    </a>
+                </li>
                 <li class="treeview">
                     <a href="recharge.php">
                         <i class="fa fa-money"></i>
