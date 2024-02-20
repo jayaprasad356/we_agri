@@ -50,7 +50,7 @@ if (isset($_POST['btnEdit'])) {
     }
 
     
-            $sql_query = "UPDATE users SET name='$name',mobile = 'mobile',email='$email',age='$age',city='$city',referred_by='$referred_by',refer_code='$refer_code',holder_name='$holder_name', bank='$bank', branch='$branch', ifsc='$ifsc', account_num='$account_num',withdrawal_status = '$withdrawal_status' WHERE id = $ID";
+            $sql_query = "UPDATE users SET name='$name',mobile = '$mobile',email='$email',age='$age',city='$city',referred_by='$referred_by',refer_code='$refer_code',holder_name='$holder_name', bank='$bank', branch='$branch', ifsc='$ifsc', account_num='$account_num',withdrawal_status = '$withdrawal_status' WHERE id = $ID";
             $db->sql($sql_query);
             $update_result = $db->getResult();
     

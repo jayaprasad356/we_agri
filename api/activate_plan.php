@@ -45,7 +45,7 @@ if (empty($user)) {
     print_r(json_encode($response));
     return false;
 }
-$balance = $user[0]['balance'];
+
 
 $sql = "SELECT * FROM plan WHERE id = $plan_id ";
 $db->sql($sql);
@@ -62,6 +62,8 @@ $price = $plan[0]['price'];
 $daily_income = $plan[0]['daily_income'];
 $total_income = $plan[0]['total_income'];
 $validity = $plan[0]['validity'];
+$balance = $user[0]['balance'];
+$recharge_balance = $user[0]['recharge_balance'];
 
 $datetime = date('Y-m-d H:i:s');
 
@@ -75,8 +77,8 @@ if (!empty($res_check_user)) {
     print_r(json_encode($response));
     return false;
 }
-if ($balance >= $price) {
-    $sql = "UPDATE users SET balance = balance - $price WHERE id = $user_id";
+if ($recharge_balance >= $price) {
+    $sql = "UPDATE users SET recharge_balance = recharge_balance - $price WHERE id = $user_id";
     $db->sql($sql);
 
 
