@@ -211,10 +211,10 @@ if (isset($_GET['table']) && $_GET['table'] == 'withdrawals') {
     if (isset($_GET['order']))
         $order = $db->escapeString($fn->xss_clean($_GET['order']));
 
-    if (isset($_GET['search']) && !empty($_GET['search'])) {
-        $search = $db->escapeString($fn->xss_clean($_GET['search']));
-        $where .= " AND (w.datetime LIKE '%" . $search . "%' OR u.mobile LIKE '%" . $search . "%' OR u.upi LIKE '%" . $search . "%' OR w.amount LIKE '%" . $search . "%' OR refer_code LIKE '%" . $search . "%' OR registered_date LIKE '%" . $search . "%')";
-    }
+        if (isset($_GET['search']) && !empty($_GET['search'])) {
+            $search = $db->escapeString($fn->xss_clean($_GET['search']));
+            $where .= "AND (u.mobile LIKE '%" . $search . "%' OR u.name LIKE '%" . $search . "%'  OR w.datetime LIKE '%" . $search . "%') ";
+        }
     if (isset($_GET['sort'])){
         $sort = $db->escapeString($_GET['sort']);
 

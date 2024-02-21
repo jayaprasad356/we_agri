@@ -58,6 +58,7 @@ if (empty($plan)) {
     return false;
 }
 
+$invite_bonus = $plan[0]['invite_bonus'];
 $price = $plan[0]['price'];
 $daily_income = $plan[0]['daily_income'];
 $total_income = $plan[0]['total_income'];
@@ -65,6 +66,8 @@ $validity = $plan[0]['validity'];
 $balance = $user[0]['balance'];
 $recharge = $user[0]['recharge'];
 $total_assets = $user[0]['total_assets'];
+$refer_code = $user[0]['refer_code'];
+$referred_by = $user[0]['referred_by'];
 
 $datetime = date('Y-m-d H:i:s');
 
@@ -79,10 +82,27 @@ if (!empty($res_check_user)) {
     return false;
 }
 if ($recharge >= $price) {
-    $sql = "UPDATE users SET recharge = recharge - $price , total_assets = total_assets + $price  WHERE id = $user_id";
+
+    $sql = "UPDATE users SET recharge = recharge - $price, total_assets = total_assets + $price WHERE id = $user_id";
     $db->sql($sql);
 
+    if($refer_code){
+        $sql = "SELECT * FROM users WHERE refer_code = '$referred_by'";
+        $db->sql($sql);
+        $res = $db->getResult();
+        $num = $db->numRows($res);
 
+        if ($num == 1) {
+            $r_id = $res[0]['id'];
+            $sql = "UPDATE `users` SET `balance` = `balance` + $invite_bonus WHERE `refer_code` = '$referred_by'";
+            $db->sql($sql);
+
+            $sql = "INSERT INTO transactions (`user_id`, `amount`, `datetime`, `type`) VALUES ('$r_id', '$invite_bonus', '$datetime', 'invite_bonus')";
+            $db->sql($sql);
+        }
+
+    }
+    
     $sql_insert_user_plan = "INSERT INTO user_plan (`user_id`,`plan_id`,`price`,`daily_income`,`total_income`,`validity`) VALUES ('$user_id','$plan_id','$price','$daily_income','$total_income','$validity')";
     $db->sql($sql_insert_user_plan);
 
