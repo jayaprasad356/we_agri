@@ -28,25 +28,71 @@ if (empty($_POST['level'])) {
 $user_id = $db->escapeString($_POST['user_id']);
 $level = $db->escapeString($_POST['level']);
 
-if ($level === 'b') {
-    $sql = "SELECT * FROM users WHERE referred_by = (SELECT refer_code FROM users WHERE id = '$user_id')";
-    $db->sql($sql);
-    $res = $db->getResult();
-    $num = $db->numRows($res);
 
-    if ($num >= 1) {
-        $response['success'] = true;
-        $response['message'] = "Users Listed Successfully";
-        $response['data'] = $res;
-        print_r(json_encode($response));
-    } else {
-        $response['success'] = false;
-        $response['message'] = "No Users found with the specified refer_code";
-        print_r(json_encode($response));
+$sql_user = "SELECT refer_code FROM users WHERE id = $user_id";
+$db->sql($sql_user);
+$res_user = $db->getResult();
+$num = $db->numRows($res_user);
+
+if ($num >= 1) {
+    $refer_code = $res_user[0]['refer_code'];
+
+    if ($level === 'b') {
+        $sql = "SELECT * FROM users WHERE referred_by = '$refer_code'";
+        $db->sql($sql);
+        $res = $db->getResult();
+        $num = $db->numRows($res);
+    
+        if ($num >= 1) {
+            $response['success'] = true;
+            $response['message'] = "Users Listed Successfully";
+            $response['data'] = $res;
+            print_r(json_encode($response));
+        } else {
+            $response['success'] = false;
+            $response['message'] = "No Users found with the specified refer_code";
+            print_r(json_encode($response));
+        }
+    } 
+    if ($level === 'c') {
+        $sql = "SELECT refer_code FROM users WHERE referred_by = '$refer_code'";
+        $db->sql($sql);
+        $res = $db->getResult();
+        $num = $db->numRows($res);
+    
+        if ($num >= 1) {
+            $response['success'] = true;
+            $response['message'] = "Users Listed Successfully";
+            $response['data'] = array();
+    
+            foreach ($res as $row) {
+                $refer_code = $row['refer_code'];
+    
+                $sql = "SELECT * FROM users WHERE referred_by = '$refer_code'";
+                $db->sql($sql);
+                $nested_res = $db->getResult();
+                $nested_num = $db->numRows($nested_res);
+    
+                if ($nested_num >= 1) {
+                    $response['data'][] = $nested_res;
+                }
+            }
+            if (empty($response['data'])) {
+                $response['success'] = false;
+                $response['message'] = "No Users found with the specified refer_code";
+            }
+            print_r(json_encode($response));
+        } else {
+            $response['success'] = false;
+            $response['message'] = "No Users found with the specified refer_code";
+            print_r(json_encode($response));
+        }
     }
+    
 } else {
     $response['success'] = false;
-    $response['message'] = "Give the correct level";
+    $response['message'] = "User Not found";
     print_r(json_encode($response));
 }
+
 ?>
