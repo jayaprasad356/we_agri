@@ -56,6 +56,11 @@ $db->connect();
             $where = '';
             $sort = 'id';
             $order = 'DESC';
+
+            if (isset($_GET['referred_by']) && $_GET['referred_by'] != '') {
+                $referred_by = $db->escapeString($fn->xss_clean($_GET['referred_by']));
+                $where .= "AND referred_by = '$referred_by' "; // Properly append the condition
+            }
             if (isset($_GET['offset']))
                 $offset = $db->escapeString($_GET['offset']);
             if (isset($_GET['limit']))
@@ -65,10 +70,10 @@ $db->connect();
             if (isset($_GET['order']))
                 $order = $db->escapeString($_GET['order']);
         
-            if (isset($_GET['search']) && !empty($_GET['search'])) {
-                $search = $db->escapeString($_GET['search']);
-                $where .= "WHERE id like '%" . $search . "%' OR name like '%" . $search . "%'";
-            }
+                if (isset($_GET['search']) && !empty($_GET['search'])) {
+                    $search = $db->escapeString($_GET['search']);
+                    $where .= " AND (id LIKE '%" . $search . "%' OR name LIKE '%" . $search . "%' OR mobile LIKE '%" . $search . "%' OR refer_code LIKE '%" . $search . "%')";
+                }
             if (isset($_GET['sort'])){
                 $sort = $db->escapeString($_GET['sort']);
             }
@@ -81,9 +86,9 @@ $db->connect();
             foreach ($res as $row)
                 $total = $row['total'];
            
-            $sql = "SELECT * FROM users " . $where . " ORDER BY " . $sort . " " . $order . " LIMIT " . $offset . ", " . $limit;
-            $db->sql($sql);
-            $res = $db->getResult();
+                $sql = "SELECT * FROM users WHERE 1=1 " . $where . " ORDER BY " . $sort . " " . $order . " LIMIT " . $offset . ", " . $limit;
+                $db->sql($sql);
+                $res = $db->getResult();
         
             $bulkData = array();
             $bulkData['total'] = $total;
