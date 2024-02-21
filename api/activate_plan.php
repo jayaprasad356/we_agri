@@ -63,7 +63,7 @@ $daily_income = $plan[0]['daily_income'];
 $total_income = $plan[0]['total_income'];
 $validity = $plan[0]['validity'];
 $balance = $user[0]['balance'];
-$recharge_balance = $user[0]['recharge_balance'];
+$recharge = $user[0]['recharge'];
 
 $datetime = date('Y-m-d H:i:s');
 
@@ -77,8 +77,8 @@ if (!empty($res_check_user)) {
     print_r(json_encode($response));
     return false;
 }
-if ($recharge_balance >= $price) {
-    $sql = "UPDATE users SET recharge_balance = recharge_balance - $price WHERE id = $user_id";
+if ($recharge >= $price) {
+    $sql = "UPDATE users SET recharge = recharge - $price WHERE id = $user_id";
     $db->sql($sql);
 
 
