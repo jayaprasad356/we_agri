@@ -88,6 +88,43 @@ if ($num >= 1) {
             print_r(json_encode($response));
         }
     }
+    if ($level === 'd') {
+        $sql = "SELECT refer_code FROM users WHERE referred_by = '$refer_code'";
+        $db->sql($sql);
+        $res = $db->getResult();
+        $num = $db->numRows($res);
+    
+        if ($num >= 1) {
+            $response['success'] = true;
+            $response['message'] = "Users Listed Successfully for Level D";
+            $response['data'] = array();
+    
+            foreach ($res as $row) {
+                $refer_code = $row['refer_code'];
+    
+                $sql = "SELECT * FROM users WHERE referred_by = '$refer_code'";
+                $db->sql($sql);
+                $nested_res = $db->getResult();
+                $nested_num = $db->numRows($nested_res);
+    
+                if ($nested_num >= 1) {
+                    $response['data'][] = $nested_res;
+                }
+            }
+    
+            if (empty($response['data'])) {
+                $response['success'] = false;
+                $response['message'] = "No Users found with the specified refer_code for Level D";
+            }
+    
+            print_r(json_encode($response));
+        } else {
+            $response['success'] = false;
+            $response['message'] = "No Users found with the specified refer_code for Level D";
+            print_r(json_encode($response));
+        }
+    }
+    
     
 } else {
     $response['success'] = false;
