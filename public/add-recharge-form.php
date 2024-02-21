@@ -21,7 +21,7 @@ if (isset($_POST['btnAdd'])) {
                 $type = 'recharge';
                 $sql = "INSERT INTO transactions (`user_id`,`amount`,`datetime`,`type`)VALUES('$ID','$recharge','$datetime','$type')";
                 $db->sql($sql);
-                 $sql_query = "UPDATE users SET recharge = recharge + $recharge WHERE id = $ID";
+                 $sql_query = "UPDATE users SET recharge = recharge + $recharge ,total_recharge = total_recharge + $recharge  WHERE id = $ID";
                  $db->sql($sql_query);
                  $result = $db->getResult();
                  if (!empty($result)) {

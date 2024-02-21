@@ -64,6 +64,7 @@ $total_income = $plan[0]['total_income'];
 $validity = $plan[0]['validity'];
 $balance = $user[0]['balance'];
 $recharge = $user[0]['recharge'];
+$total_assets = $user[0]['total_assets'];
 
 $datetime = date('Y-m-d H:i:s');
 
@@ -78,7 +79,7 @@ if (!empty($res_check_user)) {
     return false;
 }
 if ($recharge >= $price) {
-    $sql = "UPDATE users SET recharge = recharge - $price WHERE id = $user_id";
+    $sql = "UPDATE users SET recharge = recharge - $price , total_assets = total_assets + $price  WHERE id = $user_id";
     $db->sql($sql);
 
 
