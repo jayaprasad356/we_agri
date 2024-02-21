@@ -27,16 +27,6 @@ $num = $db->numRows($res_user);
 
 if ($num >= 1) {
 
-    $start_date = '2024-02-02'; 
-    $end_date = '2024-02-10';   
-
-    $sql_transaction = "SELECT SUM(amount) AS total_amount FROM transactions WHERE user_id = $user_id AND datetime >= '$start_date' AND datetime <= '$end_date'";
-    $db->sql($sql_transaction);
-    $res_transaction = $db->getResult();
-    $total_amount = $res_transaction[0]['total_amount'];
-
-    $res_user[0]['7_days_earn'] = $total_amount !== null ? $total_amount : 0;
-
     $response['success'] = true;
     $response['message'] = "User Details Retrieved Successfully";
     $response['data'] = $res_user;
