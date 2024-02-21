@@ -17,7 +17,7 @@ if (isset($_POST['btnUpdate'])) {
     $sql = "UPDATE recharge SET recharge_amount='$recharge_amount',status='1' WHERE id = '$ID'";
     $db->sql($sql);
 
-    $sql = "UPDATE users SET recharge_balance='$recharge_amount' WHERE id = '$ID'";
+    $sql = "UPDATE users SET recharge='$recharge_amount' WHERE id = '$ID'";
     $db->sql($sql);
     $result = $db->getResult();
     if (!empty($result)) {
