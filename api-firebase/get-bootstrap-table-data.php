@@ -105,6 +105,11 @@ $db->connect();
                 $tempRow['state'] = $row['state'];
                 $tempRow['refer_code'] = $row['refer_code'];
                 $tempRow['referred_by'] = $row['referred_by'];
+                $tempRow['recharge'] = $row['recharge'];
+                $tempRow['balance'] = $row['balance'];
+                $tempRow['total_earnings'] = $row['total_earnings'];
+                $tempRow['today_income'] = $row['today_income'];
+                $tempRow['device_id'] = $row['device_id'];
                 $tempRow['operate'] = $operate;
                 $rows[] = $tempRow;
             }

@@ -30,6 +30,11 @@ if (isset($_POST['btnEdit'])) {
     $branch = $db->escapeString(($_POST['branch']));
     $ifsc = $db->escapeString(($_POST['ifsc']));
     $withdrawal_status = $db->escapeString($_POST['withdrawal_status']);
+    $recharge = $db->escapeString(($_POST['recharge']));
+    $balance = $db->escapeString(($_POST['balance']));
+    $total_earnings = $db->escapeString(($_POST['total_earnings']));
+    $today_income = $db->escapeString(($_POST['today_income']));
+    $device_id = $db->escapeString(($_POST['device_id']));
 
     $error = array();
 
@@ -50,7 +55,7 @@ if (isset($_POST['btnEdit'])) {
     }
 
     
-            $sql_query = "UPDATE users SET name='$name',mobile = '$mobile',email='$email',age='$age',city='$city',referred_by='$referred_by',refer_code='$refer_code',holder_name='$holder_name', bank='$bank', branch='$branch', ifsc='$ifsc', account_num='$account_num',withdrawal_status = '$withdrawal_status' WHERE id = $ID";
+            $sql_query = "UPDATE users SET name='$name',mobile = '$mobile',email='$email',age='$age',city='$city',referred_by='$referred_by',refer_code='$refer_code',holder_name='$holder_name', bank='$bank', branch='$branch', ifsc='$ifsc', account_num='$account_num',withdrawal_status = '$withdrawal_status',recharge  = '$recharge ',balance = '$balance',total_earnings = '$total_earnings',today_income = '$today_income',device_id  = '$device_id ' WHERE id = $ID";
             $db->sql($sql_query);
             $update_result = $db->getResult();
     
@@ -98,10 +103,12 @@ if (isset($_POST['btnCancel'])) { ?>
     <div class="row">
         <div class="col-md-11">
 
-            <!-- general form elements -->
-            <div class="box box-primary">
+        <div class="box box-primary">
                <div class="box-header with-border">
-                         
+                           <div class="form-group col-md-3">
+                                <h4 class="box-title"> </h4>
+                                <a class="btn btn-block btn-primary" href="add-recharge.php?id=<?php echo $ID ?>"><i class="fa fa-plus-square"></i> Add Recharge</a>
+                            </div>
                 </div>
                 <!-- /.box-header -->
                 <form id="edit_project_form" method="post" enctype="multipart/form-data">
@@ -180,15 +187,37 @@ if (isset($_POST['btnCancel'])) { ?>
                             </div>
                             <br>
                     <div class="row">
-                        <div class="form-group">
-                            <div class='col-md-6'>
+                          <div class="form-group">
+                            <div class='col-md-4'>
                               <label for="">Withdrawal Status</label><br>
                                     <input type="checkbox" id="withdrawal_button" class="js-switch" <?= isset($res[0]['withdrawal_status']) && $res[0]['withdrawal_status'] == 1 ? 'checked' : '' ?>>
                                     <input type="hidden" id="withdrawal_status" name="withdrawal_status" value="<?= isset($res[0]['withdrawal_status']) && $res[0]['withdrawal_status'] == 1 ? 1 : 0 ?>">
                                 </div>
-                            </div>
-                        </div>
+                            <div class="col-md-4">
+                                <label for="exampleInputEmail1">Recharge </label><i class="text-danger asterik">*</i>
+                                    <input type="number" class="form-control" name="recharge" value="<?php echo $res[0]['recharge']; ?>">
+                                </div>
+                                <div class="col-md-4">
+                                <label for="exampleInputEmail1">Balance</label><i class="text-danger asterik">*</i>
+                                    <input type="number" class="form-control" name="balance" value="<?php echo $res[0]['balance']; ?>">
+                                </div>
+                           </div>
                      </div>
+                     <br>
+                     <div class="row">
+                            <div class="col-md-4">
+                                <label for="exampleInputEmail1">Total Earnings</label><i class="text-danger asterik">*</i>
+                                    <input type="number" class="form-control" name="total_earnings" value="<?php echo $res[0]['total_earnings']; ?>">
+                                </div>
+                                <div class="col-md-4">
+                                <label for="exampleInputEmail1">Today Income</label><i class="text-danger asterik">*</i>
+                                    <input type="number" class="form-control" name="today_income" value="<?php echo $res[0]['today_income']; ?>">
+                                </div>
+                                <div class="col-md-4">
+                                <label for="exampleInputEmail1">Device ID</label><i class="text-danger asterik">*</i>
+                                    <input type="text" class="form-control" name="device_id" value="<?php echo $res[0]['device_id']; ?>">
+                                </div>
+                        </div>
                         <div class="box-footer">
                         <button type="submit" class="btn btn-primary" name="btnEdit">Update</button>
                     </div>

@@ -30,6 +30,11 @@
                                     <th  data-field="state" data-sortable="true">State</th>
                                     <th data-field="refer_code" data-sortable="true">Refer Code</th>
                                     <th data-field="referred_by" data-sortable="true">Referred By</th>
+                                    <th data-field="recharge" data-sortable="true">Recharge </th>
+                                    <th  data-field="balance" data-sortable="true">Balance</th>
+                                    <th  data-field="total_earnings" data-sortable="true">Total Earnings</th>
+                                    <th data-field="today_income" data-sortable="true">Today Income</th>
+                                    <th data-field="device_id" data-sortable="true">Device ID</th>
                                 </tr>
                             </thead>
                         </table>
