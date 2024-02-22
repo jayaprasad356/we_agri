@@ -32,13 +32,7 @@ if (empty($user)) {
 }
 
 
-$sql = "SELECT *
-FROM plan
-WHERE id NOT IN (
-    SELECT plan_id
-    FROM user_plan
-    WHERE user_id = 1
-)";
+$sql = "SELECT * FROM plan";
 $db->sql($sql);
 $res= $db->getResult();
 $num = $db->numRows($res);
