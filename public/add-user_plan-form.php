@@ -73,13 +73,13 @@ if (isset($_POST['btnAdd'])) {
                                     <select id='plan_id' name="plan_id" class='form-control'>
                                            <option value="">--Select--</option>
                                                 <?php
-                                                $sql = "SELECT id, crop FROM `plan`";
+                                                $sql = "SELECT id, products FROM `plan`";
                                                 $db->sql($sql);
 
                                                 $result = $db->getResult();
                                                 foreach ($result as $value) {
                                                     ?>
-                                                    <option value='<?= $value['id'] ?>'><?= $value['crop'] ?></option>
+                                                    <option value='<?= $value['id'] ?>'><?= $value['products'] ?></option>
                                                 <?php } ?>
                                             </select>
                             </div>

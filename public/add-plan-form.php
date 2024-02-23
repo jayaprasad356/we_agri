@@ -7,16 +7,16 @@ $fn = new custom_functions;
 <?php
 if (isset($_POST['btnAdd'])) {
 
-        $crop = $db->escapeString(($_POST['crop']));
+        $products = $db->escapeString(($_POST['products']));
         $price = $db->escapeString(($_POST['price']));
         $daily_income = $db->escapeString(($_POST['daily_income']));
-        $total_income = $db->escapeString(($_POST['total_income']));
+        $monthly_income = $db->escapeString(($_POST['monthly_income']));
         $invite_bonus = $db->escapeString(($_POST['invite_bonus']));
-        $validity = $db->escapeString(($_POST['validity']));
+        $daily_quantity = $db->escapeString(($_POST['daily_quantity']));
         $error = array();
        
-        if (empty($crop)) {
-            $error['crop'] = " <span class='label label-danger'>Required!</span>";
+        if (empty($products)) {
+            $error['products'] = " <span class='label label-danger'>Required!</span>";
         }
         if (empty($price)) {
             $error['price'] = " <span class='label label-danger'>Required!</span>";
@@ -24,14 +24,14 @@ if (isset($_POST['btnAdd'])) {
         if (empty($daily_income)) {
             $error['daily_income'] = " <span class='label label-danger'>Required!</span>";
         }
-        if (empty($total_income)) {
-            $error['total_income'] = " <span class='label label-danger'>Required!</span>";
+        if (empty($monthly_income)) {
+            $error['monthly_income'] = " <span class='label label-danger'>Required!</span>";
         }
         if (empty($invite_bonus)) {
             $error['invite_bonus'] = " <span class='label label-danger'>Required!</span>";
         }
-        if (empty($validity)) {
-            $error['validity'] = " <span class='label label-danger'>Required!</span>";
+        if (empty($daily_quantity)) {
+            $error['daily_quantity'] = " <span class='label label-danger'>Required!</span>";
         }
        
        
@@ -52,10 +52,10 @@ if (isset($_POST['btnAdd'])) {
         }
 
         $upload_image = 'upload/images/' . $filename;
-        $sql = "INSERT INTO plan (crop, price,image,daily_income,total_income,invite_bonus,validity) VALUES ('$crop','$price', '$upload_image','$daily_income','$total_income','$invite_bonus','$validity')";
+        $sql = "INSERT INTO plan (products, price,image,daily_income,total_income,invite_bonus,daily_quantity,monthly_income) VALUES ('$products','$price', '$upload_image','$daily_income','$total_income','$invite_bonus','$daily_quantity','$monthly_income')";
         $db->sql($sql);
     } else {
-            $sql_query = "INSERT INTO plan (crop, price,daily_income,total_income,invite_bonus,validity) VALUES ('$crop','$price','$daily_income','$total_income','$invite_bonus','$validity')";
+            $sql_query = "INSERT INTO plan (products,price,daily_income,total_income,invite_bonus,daily_quantity,monthly_income) VALUES ('$products','$price','$daily_income','$total_income','$invite_bonus','$daily_quantity','$monthly_income')";
             $db->sql($sql);
         }
             $result = $db->getResult();
@@ -100,8 +100,8 @@ if (isset($_POST['btnAdd'])) {
                        <div class="row">
                             <div class="form-group">
                                 <div class='col-md-6'>
-                                    <label for="exampleInputtitle">Crop</label> <i class="text-danger asterik">*</i>
-                                    <input type="text" class="form-control" name="crop" required>
+                                    <label for="exampleInputtitle">Products</label> <i class="text-danger asterik">*</i>
+                                    <input type="text" class="form-control" name="products" required>
                                 </div>
                                 <div class='col-md-6'>
                                     <label for="exampleInputtitle">Price</label> <i class="text-danger asterik">*</i>
@@ -117,8 +117,8 @@ if (isset($_POST['btnAdd'])) {
                                     <input type="number" class="form-control" name="daily_income" required>
                                 </div>
                                 <div class='col-md-6'>
-                                    <label for="exampleInputtitle">Total Income</label> <i class="text-danger asterik">*</i>
-                                    <input type="number" class="form-control" name="total_income" required>
+                                    <label for="exampleInputtitle">Monthly Income</label> <i class="text-danger asterik">*</i>
+                                    <input type="number" class="form-control" name="monthly_income" required>
                                 </div>
                             </div>
                         </div>
@@ -130,8 +130,8 @@ if (isset($_POST['btnAdd'])) {
                                     <input type="number" class="form-control" name="invite_bonus" required>
                                 </div>
                                 <div class='col-md-6'>
-                                    <label for="exampleInputtitle">Validity</label> <i class="text-danger asterik">*</i>
-                                    <input type="number" class="form-control" name="validity" required>
+                                    <label for="exampleInputtitle">Daily Quantity</label> <i class="text-danger asterik">*</i>
+                                    <input type="number" class="form-control" name="daily_quantity" required>
                                 </div>
                             </div>
                         </div>

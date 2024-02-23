@@ -15,17 +15,17 @@ if (isset($_GET['id'])) {
 }
 if (isset($_POST['btnEdit'])) {
 
-    $crop = $db->escapeString(($_POST['crop']));
-    $price = $db->escapeString(($_POST['price']));
-    $daily_income = $db->escapeString(($_POST['daily_income']));
-    $total_income = $db->escapeString(($_POST['total_income']));
-    $invite_bonus = $db->escapeString(($_POST['invite_bonus']));
-    $validity = $db->escapeString(($_POST['validity']));
+	$products = $db->escapeString(($_POST['products']));
+	$price = $db->escapeString(($_POST['price']));
+	$daily_income = $db->escapeString(($_POST['daily_income']));
+	$monthly_income = $db->escapeString(($_POST['monthly_income']));
+	$invite_bonus = $db->escapeString(($_POST['invite_bonus']));
+	$daily_quantity = $db->escapeString(($_POST['daily_quantity']));
 	$error = array();
 
-    if (!empty($crop) && !empty($price) && !empty($daily_income) && !empty($total_income) && !empty($invite_bonus) && !empty($validity)) 
+    if (!empty($products) && !empty($price) && !empty($daily_income) && !empty($monthly_income) && !empty($invite_bonus) && !empty($daily_quantity)) 
     {
-		$sql_query = "UPDATE plan SET crop='$crop',price='$price',daily_income='$daily_income',total_income='$total_income',invite_bonus='$invite_bonus',validity='$validity' WHERE id =  $ID";
+		$sql_query = "UPDATE plan SET products='$products',price='$price',daily_income='$daily_income',monthly_income='$monthly_income',invite_bonus='$invite_bonus',daily_quantity='$daily_quantity' WHERE id =  $ID";
 		$db->sql($sql_query);
 		$result = $db->getResult();             
 		if (!empty($result)) {
@@ -109,8 +109,8 @@ if (isset($_POST['btnCancel'])) { ?>
 				    	<div class="row">
 					  	  <div class="form-group">
                                <div class="col-md-6">
-									<label for="exampleInputEmail1">Crop</label><i class="text-danger asterik">*</i>
-									<input type="text" class="form-control" name="crop" value="<?php echo $res[0]['crop']; ?>">
+									<label for="exampleInputEmail1">Products</label><i class="text-danger asterik">*</i>
+									<input type="text" class="form-control" name="products" value="<?php echo $res[0]['products']; ?>">
 								</div>
                                 <div class="col-md-6">
 									<label for="exampleInputEmail1">Price</label><i class="text-danger asterik">*</i>
@@ -126,8 +126,8 @@ if (isset($_POST['btnCancel'])) { ?>
 									<input type="number" class="form-control" name="daily_income" value="<?php echo $res[0]['daily_income']; ?>">
 								</div>
                                 <div class="col-md-6">
-									<label for="exampleInputEmail1">Total Income</label><i class="text-danger asterik">*</i>
-									<input type="number" class="form-control" name="total_income" value="<?php echo $res[0]['total_income']; ?>">
+									<label for="exampleInputEmail1">Monthly Income</label><i class="text-danger asterik">*</i>
+									<input type="number" class="form-control" name="monthly_income" value="<?php echo $res[0]['monthly_income']; ?>">
 								</div>
                             </div>
                          </div>
@@ -139,8 +139,8 @@ if (isset($_POST['btnCancel'])) { ?>
 									<input type="number" class="form-control" name="invite_bonus" value="<?php echo $res[0]['invite_bonus']; ?>">
 								</div>
                                 <div class="col-md-6">
-									<label for="exampleInputEmail1">Validity</label><i class="text-danger asterik">*</i>
-									<input type="number" class="form-control" name="validity" value="<?php echo $res[0]['validity']; ?>">
+									<label for="exampleInputEmail1">Daily Quantity</label><i class="text-danger asterik">*</i>
+									<input type="number" class="form-control" name="daily_quantity" value="<?php echo $res[0]['daily_quantity']; ?>">
 								</div>
                             </div>
                          </div>

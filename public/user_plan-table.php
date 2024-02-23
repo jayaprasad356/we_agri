@@ -25,11 +25,11 @@
                                     <th data-field="id" data-sortable="true"> ID</th>
                                     <th data-field="user_name" data-sortable="true">User Name</th>
                                     <th data-field="user_mobile" data-sortable="true">User Mobile</th>
-                                    <th data-field="plan_crop" data-sortable="true">Crop</th>
+                                    <th data-field="plan_products" data-sortable="true">Products</th>
                                     <th data-field="days" data-sortable="true">Days</th>
                                     <th  data-field="price" data-sortable="true">Price</th>
                                     <th data-field="daily_income" data-sortable="true">Daily Income</th>
-                                    <th  data-field="total_income" data-sortable="true">Total Income</th>
+                                    <th  data-field="monthly_income" data-sortable="true">Monthly Income</th>
                                     <th data-field="validity" data-sortable="true">Validity</th>
                                     <th  data-field="operate" data-events="actionEvents">Action</th>
                                 </tr>

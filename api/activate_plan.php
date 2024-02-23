@@ -61,7 +61,7 @@ if (empty($plan)) {
 $invite_bonus = $plan[0]['invite_bonus'];
 $price = $plan[0]['price'];
 $daily_income = $plan[0]['daily_income'];
-$total_income = $plan[0]['total_income'];
+$monthly_income = $plan[0]['monthly_income'];
 $validity = $plan[0]['validity'];
 $balance = $user[0]['balance'];
 $recharge = $user[0]['recharge'];
@@ -103,7 +103,7 @@ if ($recharge >= $price) {
 
     }
     
-    $sql_insert_user_plan = "INSERT INTO user_plan (`user_id`,`plan_id`,`price`,`daily_income`,`total_income`,`validity`) VALUES ('$user_id','$plan_id','$price','$daily_income','$total_income','$validity')";
+    $sql_insert_user_plan = "INSERT INTO user_plan (`user_id`,`plan_id`,`price`,`daily_income`,`monthly_income`,`validity`) VALUES ('$user_id','$plan_id','$price','$daily_income','$monthly_income','$validity')";
     $db->sql($sql_insert_user_plan);
 
      $sql_insert_transaction = "INSERT INTO transactions (`user_id`, `amount`, `datetime`, `type`) VALUES ('$user_id', '$price', '$datetime', 'purchase_plan')";

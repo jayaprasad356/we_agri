@@ -40,13 +40,13 @@ $num = $db->numRows($res);
 if ($num >= 1){
     foreach ($res as $row) {
         $temp['id'] = $row['id'];
-        $temp['crop'] = $row['crop'];
+        $temp['products'] = $row['products'];
         $temp['price'] = $row['price'];
         $temp['image'] = DOMAIN_URL . $row['image'];
         $temp['daily_income'] = $row['daily_income'];
-        $temp['total_income'] = $row['total_income'];
+        $temp['monthly_income'] = $row['monthly_income'];
         $temp['invite_bonus'] = $row['invite_bonus'];
-        $temp['validity'] = $row['validity'];
+        $temp['daily_quantity'] = $row['daily_quantity'];
         $rows[] = $temp;
     }
     $response['success'] = true;

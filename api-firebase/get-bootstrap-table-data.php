@@ -141,7 +141,7 @@ $db->connect();
         
             if (isset($_GET['search']) && !empty($_GET['search'])) {
                 $search = $db->escapeString($_GET['search']);
-                $where .= "WHERE id like '%" . $search . "%' OR crop like '%" . $search . "%'";
+                $where .= "WHERE id like '%" . $search . "%' OR products like '%" . $search . "%'";
             }
             if (isset($_GET['sort'])){
                 $sort = $db->escapeString($_GET['sort']);
@@ -171,12 +171,12 @@ $db->connect();
                 $operate = ' <a href="edit-plan.php?id=' . $row['id'] . '"><i class="fa fa-edit"></i>Edit</a>';
                 $operate .= ' <a class="text text-danger" href="delete-plan.php?id=' . $row['id'] . '"><i class="fa fa-trash"></i>Delete</a>';
                 $tempRow['id'] = $row['id'];
-                $tempRow['crop'] = $row['crop'];
+                $tempRow['products'] = $row['products'];
                 $tempRow['price'] = $row['price'];
                 $tempRow['daily_income'] = $row['daily_income'];
-                $tempRow['total_income'] = $row['total_income'];
+                $tempRow['daily_quantity'] = $row['daily_quantity'];
+                $tempRow['monthly_income'] = $row['monthly_income'];
                 $tempRow['invite_bonus'] = $row['invite_bonus'];
-                $tempRow['validity'] = $row['validity'];
                 if (!empty($row['image'])) {
                     $tempRow['image'] = "<a data-lightbox='category' href='" . $row['image'] . "' data-caption='" . $row['image'] . "'><img src='" . $row['image'] . "' title='" . $row['image'] . "' height='50' /></a>";
                 } else {
@@ -370,7 +370,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'user_plan') {
 
         if (isset($_GET['search']) && !empty($_GET['search'])) {
             $search = $db->escapeString($_GET['search']);
-            $where .= " AND (u.id LIKE '%" . $search . "%' OR u.name LIKE '%" . $search . "%' OR p.crop LIKE '%" . $search . "%')";
+            $where .= " AND (u.id LIKE '%" . $search . "%' OR u.name LIKE '%" . $search . "%' OR p.products LIKE '%" . $search . "%')";
         }
         $join = "LEFT JOIN `users` u ON l.user_id = u.id LEFT JOIN `plan` p ON l.plan_id = p.id WHERE l.id IS NOT NULL " . $where;
 
@@ -381,7 +381,8 @@ if (isset($_GET['table']) && $_GET['table'] == 'user_plan') {
             $total = $row['total'];
         }
         
-        $sql = "SELECT l.id AS id, l.*, u.name AS user_name, u.mobile AS user_mobile, p.crop AS plan_crop FROM `user_plan` l " . $join . " ORDER BY $sort $order LIMIT $offset, $limit";
+        $sql = "SELECT l.id AS id, l.*, u.name AS user_name, u.mobile AS user_mobile, p.products
+         AS plan_products FROM `user_plan` l " . $join . " ORDER BY $sort $order LIMIT $offset, $limit";
         $db->sql($sql);
         $res = $db->getResult();
         
@@ -399,11 +400,11 @@ if (isset($_GET['table']) && $_GET['table'] == 'user_plan') {
         $tempRow['id'] = $row['id'];
         $tempRow['user_name'] = $row['user_name'];
         $tempRow['user_mobile'] = $row['user_mobile'];
-        $tempRow['plan_crop'] = $row['plan_crop'];
+        $tempRow['plan_products'] = $row['plan_products'];
         $tempRow['days'] = $row['days'];
         $tempRow['price'] = $row['price'];
         $tempRow['daily_income'] = $row['daily_income'];
-        $tempRow['total_income'] = $row['total_income'];
+        $tempRow['monthly_income'] = $row['monthly_income'];
         $tempRow['validity'] = $row['validity'];
         $tempRow['operate'] = $operate;
         $rows[] = $tempRow;

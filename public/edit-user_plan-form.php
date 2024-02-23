@@ -19,7 +19,7 @@ if (isset($_POST['btnEdit'])) {
     $days = $db->escapeString(($_POST['days']));
     $price = $db->escapeString(($_POST['price']));
     $daily_income = $db->escapeString(($_POST['daily_income']));
-    $total_income = $db->escapeString(($_POST['total_income']));
+    $monthly_income = $db->escapeString(($_POST['monthly_income']));
     $validity = $db->escapeString(($_POST['validity']));
    
     //$refer_bonus_sent = $db->escapeString(($_POST['refer_bonus_sent']));
@@ -28,7 +28,7 @@ if (isset($_POST['btnEdit'])) {
 
     // Check if user status is 1
    
-        $sql_query = "UPDATE user_plan SET user_id='$user_id',plan_id='$plan_id',days='$days',price='$price',daily_income='$daily_income',total_income='$total_income',validity='$validity' WHERE id =  $ID";
+        $sql_query = "UPDATE user_plan SET user_id='$user_id',plan_id='$plan_id',days='$days',price='$price',daily_income='$daily_income',monthly_income='$monthly_income',validity='$validity' WHERE id =  $ID";
         $db->sql($sql_query);
         $update_result = $db->getResult();
 
@@ -101,7 +101,7 @@ window.location.href = "user_plan.php";
                                                 $result = $db->getResult();
                                                 foreach ($result as $value) {
                                                 ?>
-                                                    <option value='<?= $value['id'] ?>' <?= $value['id']==$res[0]['plan_id'] ? 'selected="selected"' : '';?>><?= $value['crop'] ?></option>
+                                                    <option value='<?= $value['id'] ?>' <?= $value['id']==$res[0]['plan_id'] ? 'selected="selected"' : '';?>><?= $value['products'] ?></option>
                                                     
                                                 <?php } ?>
                                     </select>
@@ -119,8 +119,8 @@ window.location.href = "user_plan.php";
                 <input type="number" class="form-control" name="daily_income"  value="<?php echo $res[0]['daily_income']?>">
               </div>
               <div class="form-group">
-                <label for="">Total Income</label>
-                <input type="number" class="form-control" name="total_income"  value="<?php echo $res[0]['total_income']?>">
+                <label for="">Monthly Income</label>
+                <input type="number" class="form-control" name="monthly_income"  value="<?php echo $res[0]['monthly_income']?>">
               </div>
               <div class="form-group">
                 <label for="">Validity</label>
