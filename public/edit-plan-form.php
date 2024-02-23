@@ -22,11 +22,8 @@ if (isset($_POST['btnEdit'])) {
     $daily_income = $db->escapeString(($_POST['daily_income']));
     $monthly_income = $db->escapeString(($_POST['monthly_income']));
 	$invite_bonus = $db->escapeString(($_POST['invite_bonus']));
-	$error = array();
-
-    if (!empty($products) && !empty($price) && !empty($daily_quantity) && !empty($unit) && !empty($daily_income) && !empty($monthly_income)&& !empty($invite_bonus)) 
-    {
-		$sql_query = "UPDATE plan SET products='$products',price='$price',daily_quantity='$daily_quantity',unit='$unit',daily_income='$daily_income',monthly_income='$monthly_income',invite_bonus='$invite_bonus' WHERE id =  $ID";
+	
+		$sql_query = "UPDATE plan SET products='$products',price='$price',daily_quantity='$daily_quantity',daily_income='$daily_income',monthly_income='$monthly_income',invite_bonus='$invite_bonus',unit='$unit' WHERE id =  $ID";
 		$db->sql($sql_query);
 		$result = $db->getResult();             
 		if (!empty($result)) {
@@ -71,7 +68,6 @@ if (isset($_POST['btnEdit'])) {
 			}
 		}
 	}
-}
 
 
 // create array variable to store previous data
