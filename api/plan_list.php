@@ -42,6 +42,7 @@ if ($num >= 1){
         $temp['id'] = $row['id'];
         $temp['products'] = $row['products'];
         $temp['price'] = $row['price'];
+        $temp['unit'] = $row['unit'];
         $temp['image'] = DOMAIN_URL . $row['image'];
         $temp['daily_income'] = $row['daily_income'];
         $temp['monthly_income'] = $row['monthly_income'];

@@ -13,6 +13,7 @@ if (isset($_POST['btnAdd'])) {
         $monthly_income = $db->escapeString(($_POST['monthly_income']));
         $invite_bonus = $db->escapeString(($_POST['invite_bonus']));
         $daily_quantity = $db->escapeString(($_POST['daily_quantity']));
+        $unit = $db->escapeString(($_POST['unit']));
         $error = array();
        
         if (empty($products)) {
@@ -33,7 +34,9 @@ if (isset($_POST['btnAdd'])) {
         if (empty($daily_quantity)) {
             $error['daily_quantity'] = " <span class='label label-danger'>Required!</span>";
         }
-       
+        if (empty($unit)) {
+            $error['unit'] = " <span class='label label-danger'>Required!</span>";
+        }
        
             // Validate and process the image upload
     if ($_FILES['image']['size'] != 0 && $_FILES['image']['error'] == 0 && !empty($_FILES['image'])) {
@@ -52,10 +55,10 @@ if (isset($_POST['btnAdd'])) {
         }
 
         $upload_image = 'upload/images/' . $filename;
-        $sql = "INSERT INTO plan (products, price,image,daily_income,total_income,invite_bonus,daily_quantity,monthly_income) VALUES ('$products','$price', '$upload_image','$daily_income','$total_income','$invite_bonus','$daily_quantity','$monthly_income')";
+        $sql = "INSERT INTO plan (products,price,daily_quantity,unit,daily_income,monthly_income,invite_bonus,image) VALUES ('$products','$price', '$daily_quantity','$unit','$daily_income','$monthly_income','$invite_bonus','$upload_image')";
         $db->sql($sql);
     } else {
-            $sql_query = "INSERT INTO plan (products,price,daily_income,total_income,invite_bonus,daily_quantity,monthly_income) VALUES ('$products','$price','$daily_income','$total_income','$invite_bonus','$daily_quantity','$monthly_income')";
+            $sql_query = "INSERT INTO plan (products,price,daily_quantity,unit,daily_income,monthly_income,invite_bonus) VALUES ('$products','$price','$daily_quantity','$unit','$daily_income','$monthly_income','$invite_bonus')";
             $db->sql($sql);
         }
             $result = $db->getResult();
@@ -143,6 +146,10 @@ if (isset($_POST['btnAdd'])) {
                                     <input type="file" name="image" onchange="readURL(this);" accept="image/png, image/jpeg" id="image" required/><br>
                                     <img id="blah" src="#" alt="" style="display: none; max-height: 200px; max-width: 200px;" /> <!-- Adjust max-height and max-width as needed -->
                                  </div>
+                                 <div class='col-md-6'>
+                                    <label for="exampleInputtitle">Unit</label> <i class="text-danger asterik">*</i>
+                                    <input type="text" class="form-control" name="unit" required>
+                                </div>
                             </div> 
                         </div>  
                         <br>

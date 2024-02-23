@@ -15,17 +15,18 @@ if (isset($_GET['id'])) {
 }
 if (isset($_POST['btnEdit'])) {
 
-	$products = $db->escapeString(($_POST['products']));
-	$price = $db->escapeString(($_POST['price']));
-	$daily_income = $db->escapeString(($_POST['daily_income']));
-	$monthly_income = $db->escapeString(($_POST['monthly_income']));
+    $products = $db->escapeString(($_POST['products']));
+    $price = $db->escapeString(($_POST['price']));
+    $daily_quantity = $db->escapeString(($_POST['daily_quantity']));
+    $unit = $db->escapeString(($_POST['unit']));
+    $daily_income = $db->escapeString(($_POST['daily_income']));
+    $monthly_income = $db->escapeString(($_POST['monthly_income']));
 	$invite_bonus = $db->escapeString(($_POST['invite_bonus']));
-	$daily_quantity = $db->escapeString(($_POST['daily_quantity']));
 	$error = array();
 
-    if (!empty($products) && !empty($price) && !empty($daily_income) && !empty($monthly_income) && !empty($invite_bonus) && !empty($daily_quantity)) 
+    if (!empty($products) && !empty($price) && !empty($daily_quantity) && !empty($unit) && !empty($daily_income) && !empty($monthly_income)&& !empty($invite_bonus)) 
     {
-		$sql_query = "UPDATE plan SET products='$products',price='$price',daily_income='$daily_income',monthly_income='$monthly_income',invite_bonus='$invite_bonus',daily_quantity='$daily_quantity' WHERE id =  $ID";
+		$sql_query = "UPDATE plan SET products='$products',price='$price',daily_quantity='$daily_quantity',unit='$unit',daily_income='$daily_income',monthly_income='$monthly_income',invite_bonus='$invite_bonus' WHERE id =  $ID";
 		$db->sql($sql_query);
 		$result = $db->getResult();             
 		if (!empty($result)) {
@@ -153,6 +154,10 @@ if (isset($_POST['btnCancel'])) { ?>
                                     <img id="blah" src="<?php echo $res[0]['image']; ?>" alt="" width="150" height="200" <?php echo empty($res[0]['image']) ? 'style="display: none;"' : ''; ?> />
                                   </div>
                                </div>
+							   <div class="col-md-6">
+									<label for="exampleInputEmail1">Unit</label><i class="text-danger asterik">*</i>
+									<input type="text" class="form-control" name="unit" value="<?php echo $res[0]['unit']; ?>">
+								</div>
 						  </div>  
                      </div>
 					<div class="box-footer">

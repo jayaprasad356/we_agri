@@ -24,6 +24,7 @@
                                     <th  data-field="id" data-sortable="true">ID</th>
                                     <th  data-field="products" data-sortable="true">Products</th>
                                     <th  data-field="price" data-sortable="true">Price</th>
+                                    <th  data-field="unit" data-sortable="true">Unit</th>
                                     <th data-field="daily_income" data-sortable="true">Daily Income</th>
                                     <th  data-field="monthly_income" data-sortable="true">Monthly Income</th>
                                     <th  data-field="invite_bonus" data-sortable="true">Invite Bonus</th>
