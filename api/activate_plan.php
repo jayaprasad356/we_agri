@@ -6,7 +6,7 @@ header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
 header("Cache-Control: no-store, no-cache, must-revalidate");
 header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
-
+date_default_timezone_set('Asia/Kolkata');
 
 include_once('../includes/crud.php');
 
@@ -17,7 +17,7 @@ include_once('../includes/functions.php');
 $fn = new functions;
 
 
-
+$date = date('Y-m-d');
 if (empty($_POST['user_id'])) {
     $response['success'] = false;
     $response['message'] = "User Id is Empty";
@@ -61,8 +61,8 @@ if (empty($plan)) {
 $invite_bonus = $plan[0]['invite_bonus'];
 $price = $plan[0]['price'];
 $daily_income = $plan[0]['daily_income'];
-$monthly_income = $plan[0]['monthly_income'];
-$daily_quantity = $plan[0]['daily_quantity'];
+$total_income = $plan[0]['total_income'];
+$validity = $plan[0]['validity'];
 $balance = $user[0]['balance'];
 $recharge = $user[0]['recharge'];
 $total_assets = $user[0]['total_assets'];
@@ -94,7 +94,7 @@ if ($recharge >= $price) {
 
         if ($num == 1) {
             $r_id = $res[0]['id'];
-            $sql = "UPDATE `users` SET `balance` = `balance` + $invite_bonus WHERE `refer_code` = '$referred_by'";
+            $sql = "UPDATE `users` SET `balance` = `balance` + $invite_bonus,`today_income` = `today_income` + $invite_bonus,`total_income` = `total_income` + $invite_bonus  WHERE `refer_code` = '$referred_by'";
             $db->sql($sql);
 
             $sql = "INSERT INTO transactions (`user_id`, `amount`, `datetime`, `type`) VALUES ('$r_id', '$invite_bonus', '$datetime', 'invite_bonus')";
@@ -103,14 +103,14 @@ if ($recharge >= $price) {
 
     }
     
-    $sql_insert_user_plan = "INSERT INTO user_plan (`user_id`,`plan_id`,`price`,`daily_income`,`monthly_income`,`daily_quantity`) VALUES ('$user_id','$plan_id','$price','$daily_income','$monthly_income','$daily_quantity')";
+    $sql_insert_user_plan = "INSERT INTO user_plan (`user_id`,`plan_id`,`joined_date`) VALUES ('$user_id','$plan_id','$date')";
     $db->sql($sql_insert_user_plan);
 
-     $sql_insert_transaction = "INSERT INTO transactions (`user_id`, `amount`, `datetime`, `type`) VALUES ('$user_id', '$price', '$datetime', 'purchase_plan')";
+     $sql_insert_transaction = "INSERT INTO transactions (`user_id`, `amount`, `datetime`, `type`) VALUES ('$user_id', '$price', '$datetime', 'start_production')";
      $db->sql($sql_insert_transaction);
 
     $response['success'] = true;
-    $response['message'] = "Apply User Plan successfully";
+    $response['message'] = "Production Started Successfully";
  }else {
     $response['success'] = false;
     $response['message'] = "Insufficient balance to apply for this plan";
