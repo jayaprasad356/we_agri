@@ -18,16 +18,16 @@ class Database
 
 
      //live
-    //private $db_host = "localhost";  // Change as required
-    //private $db_user = "u743445510_we_agri";  // Change as required
-    //private $db_pass = "We_agri@2023";  // Change as required
-    //private $db_name = "u743445510_we_agri"; 
+    private $db_host = "localhost";  // Change as required
+    private $db_user = "u743445510_we_agri";  // Change as required
+    private $db_pass = "We_agri@2023";  // Change as required
+    private $db_name = "u743445510_we_agri"; 
 
 
-     private $db_host = "localhost";  // Change as required
-     private $db_user = "root";  // Change as required
-     private $db_pass = "";  // Change as required
-     private $db_name = "we_agri";    // Change as required
+   //  private $db_host = "localhost";  // Change as required
+    // private $db_user = "root";  // Change as required
+   //  private $db_pass = "";  // Change as required
+   //  private $db_name = "we_agri";    // Change as required
 
     private $con = false; // Check to see if the connection is active
     private $myconn = ""; // This will be our mysqli object
