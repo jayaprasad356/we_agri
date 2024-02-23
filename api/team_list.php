@@ -46,6 +46,7 @@ if ($num >= 1) {
         if ($num >= 1) {
             $response['success'] = true;
             $response['message'] = "Users Listed Successfully";
+            $response['count'] = $num;
             $response['data'] = $res;
             print_r(json_encode($response));
         } else {
@@ -63,7 +64,6 @@ if ($num >= 1) {
         if ($num >= 1) {
             $response['success'] = true;
             $response['message'] = "Users Listed Successfully";
-            $response['data'] = array();
     
             foreach ($res as $row) {
                 $refer_code = $row['refer_code'];
@@ -74,7 +74,8 @@ if ($num >= 1) {
                 $nested_num = $db->numRows($nested_res);
     
                 if ($nested_num >= 1) {
-                    $response['data'][] = $nested_res;
+                    $response['count'] = $nested_num;
+                    $response['data'] = $nested_res;
                 }
             }
             if (empty($response['data'])) {
@@ -104,11 +105,26 @@ if ($num >= 1) {
     
                 $sql = "SELECT * FROM users WHERE referred_by = '$refer_code'";
                 $db->sql($sql);
-                $nested_res = $db->getResult();
-                $nested_num = $db->numRows($nested_res);
+                $num = $db->getResult();
+                $num = $db->numRows($num);
     
-                if ($nested_num >= 1) {
-                    $response['data'][] = $nested_res;
+                if ($num >= 1) {
+                    $response['success'] = true;
+                    $response['message'] = "Users Listed Successfully for Level D";
+            
+                    foreach ($res as $row) {
+                        $refer_code = $row['refer_code'];
+            
+                        $sql = "SELECT * FROM users WHERE referred_by = '$refer_code'";
+                        $db->sql($sql);
+                        $nested_res = $db->getResult();
+                        $nested_num = $db->numRows($nested_res);
+            
+                        if ($nested_num >= 1) {
+                            $response['count'] = $nested_num;
+                            $response['data'] = $nested_res;
+                        }
+                    }
                 }
             }
     
