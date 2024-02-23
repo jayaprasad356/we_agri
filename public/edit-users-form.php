@@ -18,23 +18,30 @@ if (isset($_POST['btnEdit'])) {
 
     $name = $db->escapeString($_POST['name']);
     $mobile = $db->escapeString($_POST['mobile']);
-    $age = $db->escapeString($_POST['age']);
-    $city = $db->escapeString($_POST['city']);
-    $state = $db->escapeString($_POST['state']);
     $email= $db->escapeString($_POST['email']);
     $refer_code= $db->escapeString($_POST['refer_code']);
     $referred_by= $db->escapeString($_POST['referred_by']);
-    $account_num = $db->escapeString(($_POST['account_num']));
-    $holder_name = $db->escapeString(($_POST['holder_name']));
-    $bank = $db->escapeString(($_POST['bank']));
+    $account_num = $db->escapeString($_POST['account_num']);
+    $holder_name = $db->escapeString($_POST['holder_name']);
+    $bank = $db->escapeString($_POST['bank']);
     $branch = $db->escapeString(($_POST['branch']));
     $ifsc = $db->escapeString(($_POST['ifsc']));
-    $withdrawal_status = $db->escapeString($_POST['withdrawal_status']);
-    $recharge = $db->escapeString(($_POST['recharge']));
-    $balance = $db->escapeString(($_POST['balance']));
-    $total_earnings = $db->escapeString(($_POST['total_earnings']));
+    $age = $db->escapeString(($_POST['age']));
+    $city = $db->escapeString(($_POST['city']));
+    $state = $db->escapeString(($_POST['state']));
+    $device_id = $db->escapeString($_POST['device_id']);
     $today_income = $db->escapeString(($_POST['today_income']));
-    $device_id = $db->escapeString(($_POST['device_id']));
+    $total_income = $db->escapeString(($_POST['total_income']));
+    $balance = $db->escapeString(($_POST['balance']));
+    $withdrawal_status = $db->escapeString(($_POST['withdrawal_status']));
+    $recharge = $db->escapeString(($_POST['recharge']));
+    $total_recharge = $db->escapeString($_POST['total_recharge']);
+    $team_size = $db->escapeString($_POST['team_size']);
+    $valid_team = $db->escapeString($_POST['valid_team']);
+    $total_assets = $db->escapeString($_POST['total_assets']);
+    $total_withdrawal = $db->escapeString($_POST['total_withdrawal']);
+    $team_income= $db->escapeString($_POST['team_income']);
+    $registered_datetime= $db->escapeString($_POST['registered_datetime']);
 
     $error = array();
 
@@ -55,7 +62,7 @@ if (isset($_POST['btnEdit'])) {
     }
 
     
-            $sql_query = "UPDATE users SET name='$name',mobile = '$mobile',email='$email',age='$age',city='$city',referred_by='$referred_by',refer_code='$refer_code',holder_name='$holder_name', bank='$bank', branch='$branch', ifsc='$ifsc', account_num='$account_num',withdrawal_status = '$withdrawal_status',recharge  = '$recharge ',balance = '$balance',total_earnings = '$total_earnings',today_income = '$today_income',device_id  = '$device_id ' WHERE id = $ID";
+            $sql_query = "UPDATE users SET name='$name',mobile = '$mobile',email='$email',age='$age',city='$city',referred_by='$referred_by',refer_code='$refer_code',holder_name='$holder_name', bank='$bank', branch='$branch', ifsc='$ifsc', account_num='$account_num',withdrawal_status = '$withdrawal_status',recharge  = '$recharge ',balance = '$balance',today_income = '$today_income',device_id  = '$device_id',total_income  = '$total_income',state  = '$state',total_recharge  = '$total_recharge',team_size  = '$team_size',valid_team  = '$valid_team',total_assets  = '$total_assets',total_withdrawal  = '$total_withdrawal',team_income  = '$team_income',registered_datetime  = '$registered_datetime' WHERE id = $ID";
             $db->sql($sql_query);
             $update_result = $db->getResult();
     
@@ -188,34 +195,68 @@ if (isset($_POST['btnCancel'])) { ?>
                             <br>
                     <div class="row">
                           <div class="form-group">
-                            <div class='col-md-4'>
+                            <div class='col-md-3'>
                               <label for="">Withdrawal Status</label><br>
                                     <input type="checkbox" id="withdrawal_button" class="js-switch" <?= isset($res[0]['withdrawal_status']) && $res[0]['withdrawal_status'] == 1 ? 'checked' : '' ?>>
                                     <input type="hidden" id="withdrawal_status" name="withdrawal_status" value="<?= isset($res[0]['withdrawal_status']) && $res[0]['withdrawal_status'] == 1 ? 1 : 0 ?>">
                                 </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <label for="exampleInputEmail1">Recharge </label><i class="text-danger asterik">*</i>
                                     <input type="number" class="form-control" name="recharge" value="<?php echo $res[0]['recharge']; ?>">
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                 <label for="exampleInputEmail1">Balance</label><i class="text-danger asterik">*</i>
                                     <input type="number" class="form-control" name="balance" value="<?php echo $res[0]['balance']; ?>">
+                                </div>
+                                <div class="col-md-3">
+                                <label for="exampleInputEmail1">Total Recharge</label><i class="text-danger asterik">*</i>
+                                    <input type="number" class="form-control" name="total_recharge" value="<?php echo $res[0]['total_recharge']; ?>">
                                 </div>
                            </div>
                      </div>
                      <br>
                      <div class="row">
-                            <div class="col-md-4">
-                                <label for="exampleInputEmail1">Total Earnings</label><i class="text-danger asterik">*</i>
-                                    <input type="number" class="form-control" name="total_earnings" value="<?php echo $res[0]['total_earnings']; ?>">
+                            <div class="col-md-3">
+                                <label for="exampleInputEmail1">Total Income</label><i class="text-danger asterik">*</i>
+                                    <input type="number" class="form-control" name="total_income" value="<?php echo $res[0]['total_income']; ?>">
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                 <label for="exampleInputEmail1">Today Income</label><i class="text-danger asterik">*</i>
                                     <input type="number" class="form-control" name="today_income" value="<?php echo $res[0]['today_income']; ?>">
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                 <label for="exampleInputEmail1">Device ID</label><i class="text-danger asterik">*</i>
                                     <input type="text" class="form-control" name="device_id" value="<?php echo $res[0]['device_id']; ?>">
+                                </div>
+                                <div class="col-md-3">
+                                <label for="exampleInputEmail1">Team Size</label><i class="text-danger asterik">*</i>
+                                    <input type="number" class="form-control" name="team_size" value="<?php echo $res[0]['team_size']; ?>">
+                                </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label for="exampleInputEmail1">Valid Team</label><i class="text-danger asterik">*</i>
+                                    <input type="number" class="form-control" name="valid_team" value="<?php echo $res[0]['valid_team']; ?>">
+                                </div>
+                                <div class="col-md-3">
+                                <label for="exampleInputEmail1">Total Assets</label><i class="text-danger asterik">*</i>
+                                    <input type="number" class="form-control" name="total_assets" value="<?php echo $res[0]['total_assets']; ?>">
+                                </div>
+                                <div class="col-md-3">
+                                <label for="exampleInputEmail1">Total Withdrawals</label><i class="text-danger asterik">*</i>
+                                    <input type="number" class="form-control" name="total_withdrawal" value="<?php echo $res[0]['total_withdrawal']; ?>">
+                                </div>
+                                <div class="col-md-3">
+                                <label for="exampleInputEmail1">Team Income</label><i class="text-danger asterik">*</i>
+                                    <input type="number" class="form-control" name="team_income" value="<?php echo $res[0]['team_income']; ?>">
+                                </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label for="exampleInputEmail1">Registered Datetime</label><i class="text-danger asterik">*</i>
+                                    <input type="datetime-local" class="form-control" name="registered_datetime" value="<?php echo $res[0]['registered_datetime']; ?>">
                                 </div>
                         </div>
                         <div class="box-footer">

@@ -92,7 +92,7 @@ if ($num >= 1) {
         print_r(json_encode($response));
         return false;
     }
-    $sql = "INSERT INTO users (`mobile`,`name`,`referred_by`,`account_num`,`holder_name`,`bank`,`branch`,`ifsc`,`device_id`,`age`,`city`,`email`,`state`) VALUES ('$mobile','$name','$referred_by','','','','','','$device_id','$age','$city','$email','$state')";
+    $sql = "INSERT INTO users (`mobile`,`name`,`referred_by`,`account_num`,`holder_name`,`bank`,`branch`,`ifsc`,`device_id`,`age`,`city`,`email`,`state`,`registered_datetime`) VALUES ('$mobile','$name','$referred_by','','','','','','$device_id','$age','$city','$email','$state','$datetime')";
     $db->sql($sql);
     $sql = "SELECT * FROM users WHERE mobile = '$mobile'";
     $db->sql($sql);
