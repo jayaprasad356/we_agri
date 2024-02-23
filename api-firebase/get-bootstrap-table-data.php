@@ -405,7 +405,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'user_plan') {
         $tempRow['price'] = $row['price'];
         $tempRow['daily_income'] = $row['daily_income'];
         $tempRow['monthly_income'] = $row['monthly_income'];
-        $tempRow['validity'] = $row['validity'];
+        $tempRow['daily_quantity'] = $row['validdaily_quantityity'];
         $tempRow['operate'] = $operate;
         $rows[] = $tempRow;
     }

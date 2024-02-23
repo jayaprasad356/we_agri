@@ -20,7 +20,7 @@ if (isset($_POST['btnEdit'])) {
     $price = $db->escapeString(($_POST['price']));
     $daily_income = $db->escapeString(($_POST['daily_income']));
     $monthly_income = $db->escapeString(($_POST['monthly_income']));
-    $validity = $db->escapeString(($_POST['validity']));
+    $daily_quantity = $db->escapeString(($_POST['daily_quantity']));
    
     //$refer_bonus_sent = $db->escapeString(($_POST['refer_bonus_sent']));
     //$refer_user_id = $db->escapeString(($_POST['refer_user_id']));
@@ -28,7 +28,7 @@ if (isset($_POST['btnEdit'])) {
 
     // Check if user status is 1
    
-        $sql_query = "UPDATE user_plan SET user_id='$user_id',plan_id='$plan_id',days='$days',price='$price',daily_income='$daily_income',monthly_income='$monthly_income',validity='$validity' WHERE id =  $ID";
+        $sql_query = "UPDATE user_plan SET user_id='$user_id',plan_id='$plan_id',days='$days',price='$price',daily_income='$daily_income',monthly_income='$monthly_income',daily_quantity='$daily_quantity' WHERE id =  $ID";
         $db->sql($sql_query);
         $update_result = $db->getResult();
 
@@ -123,8 +123,8 @@ window.location.href = "user_plan.php";
                 <input type="number" class="form-control" name="monthly_income"  value="<?php echo $res[0]['monthly_income']?>">
               </div>
               <div class="form-group">
-                <label for="">Validity</label>
-                <input type="number" class="form-control" name="validity"  value="<?php echo $res[0]['validity']?>">
+                <label for="">Daily Quantity</label>
+                <input type="number" class="form-control" name="daily_quantity"  value="<?php echo $res[0]['daily_quantity']?>">
               </div>
              
             </div><!-- /.box-body -->

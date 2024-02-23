@@ -30,7 +30,7 @@
                                     <th  data-field="price" data-sortable="true">Price</th>
                                     <th data-field="daily_income" data-sortable="true">Daily Income</th>
                                     <th  data-field="monthly_income" data-sortable="true">Monthly Income</th>
-                                    <th data-field="validity" data-sortable="true">Validity</th>
+                                    <th data-field="daily_quantity" data-sortable="true">Daily Quantity</th>
                                     <th  data-field="operate" data-events="actionEvents">Action</th>
                                 </tr>
                             </thead>
