@@ -78,7 +78,7 @@ $res_check_user = $db->getResult();
 
 if (!empty($res_check_user)) {
     $response['success'] = false;
-    $response['message'] = "You have already started this Production";
+    $response['message'] = "You have already started this production";
     print_r(json_encode($response));
     return false;
 }
@@ -119,7 +119,7 @@ if ($recharge >= $price) {
     $db->sql($sql_insert_transaction);
 
     $response['success'] = true;
-    $response['message'] = "Production Started Successfully";
+    $response['message'] = "Production started successfully";
  }else {
     $response['success'] = false;
     $response['message'] = "Insufficient balance to start this production";
