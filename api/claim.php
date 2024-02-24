@@ -15,7 +15,7 @@ $db->connect();
 include_once('../includes/custom-functions.php');
 include_once('../includes/functions.php');
 $fn = new functions;
-
+$datetime = date('Y-m-d H:i:s');
 if (empty($_POST['user_id'])) {
     $response['success'] = false;
     $response['message'] = "User Id is Empty";
@@ -85,7 +85,8 @@ $db->sql($sql);
 $sql = "UPDATE users SET balance = balance + $ten_percent, today_income = today_income + $ten_percent, total_income = total_income + $ten_percent WHERE refer_code = '$referred_by'";
 $db->sql($sql);
 
-
+$sql_insert_transaction = "INSERT INTO transactions (`user_id`, `amount`, `datetime`, `type`) VALUES ('$user_id', '$daily_income', '$datetime', 'daily_income')";
+$db->sql($sql_insert_transaction);
 
 $response['success'] = true;
 $response['message'] = "Claim Updated Successfully";
