@@ -16,16 +16,24 @@ include_once('../includes/custom-functions.php');
 include_once('../includes/functions.php');
 $fn = new functions;
 
-if (empty($_POST['user_plan_id'])) {
+if (empty($_POST['user_id'])) {
     $response['success'] = false;
-    $response['message'] = "User Plan Id is Empty";
+    $response['message'] = "User Id is Empty";
     echo json_encode($response);
     return;
 }
 
-$user_plan_id = $db->escapeString($_POST['user_plan_id']);
+if (empty($_POST['plan_id'])) {
+    $response['success'] = false;
+    $response['message'] = "Plan Id is Empty";
+    echo json_encode($response);
+    return;
+}
 
-$sql = "SELECT * FROM user_plan WHERE id = $user_plan_id";
+
+$user_id = $db->escapeString($_POST['user_id']);
+$plan_id = $db->escapeString($_POST['plan_id']);
+$sql = "SELECT * FROM user_plan WHERE user_id = $user_id AND plan_id = $plan_id";
 $db->sql($sql);
 $user_plan = $db->getResult();
 
