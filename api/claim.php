@@ -33,10 +33,21 @@ if (empty($_POST['plan_id'])) {
 
 $user_id = $db->escapeString($_POST['user_id']);
 $plan_id = $db->escapeString($_POST['plan_id']);
+
+$sql = "SELECT id,referred_by FROM users WHERE id = $user_id";
+$db->sql($sql);
+$user = $db->getResult();
+
+if (empty($user)) {
+    $response['success'] = false;
+    $response['message'] = "User not found";
+    echo json_encode($response);
+    return;
+}
+$referred_by = $user[0]['referred_by'];
 $sql = "SELECT * FROM user_plan WHERE user_id = $user_id AND plan_id = $plan_id";
 $db->sql($sql);
 $user_plan = $db->getResult();
-
 if (empty($user_plan)) {
     $response['success'] = false;
     $response['message'] = "User Plan not found";
@@ -44,10 +55,8 @@ if (empty($user_plan)) {
     return;
 }
 $claim = $user_plan[0]['claim'];
-$user_id = $user_plan[0]['user_id'];
-$plan_id = $user_plan[0]['plan_id'];
 
-if ($claim == '1') {
+if ($claim == 0) {
     $response['success'] = false;
     $response['message'] = "You already claimed this plan";
     print_r(json_encode($response));
@@ -65,12 +74,18 @@ if (empty($plan)) {
     return;
 }
 $daily_income = $plan[0]['daily_income'];
+$ten_percent = $daily_income * 0.1;
 
-$sql = "UPDATE user_plan SET claim = 0 WHERE id = $user_plan_id";
+$sql = "UPDATE user_plan SET claim = 0 WHERE plan_id = $plan_id AND user_id = $user_id";
 $db->sql($sql);
 
 $sql = "UPDATE users SET balance = balance + $daily_income, today_income = today_income + $daily_income, total_income = total_income + $daily_income WHERE id = $user_id";
 $db->sql($sql);
+
+$sql = "UPDATE users SET balance = balance + $ten_percent, today_income = today_income + $ten_percent, total_income = total_income + $ten_percent WHERE refer_code = '$referred_by'";
+$db->sql($sql);
+
+
 
 $response['success'] = true;
 $response['message'] = "Claim Updated Successfully";
