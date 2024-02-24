@@ -65,6 +65,7 @@ $total_income = $plan[0]['total_income'];
 $validity = $plan[0]['validity'];
 $balance = $user[0]['balance'];
 $recharge = $user[0]['recharge'];
+$valid = $user[0]['valid'];
 $total_assets = $user[0]['total_assets'];
 $refer_code = $user[0]['refer_code'];
 $referred_by = $user[0]['referred_by'];
@@ -82,9 +83,17 @@ if (!empty($res_check_user)) {
     return false;
 }
 if ($recharge >= $price) {
+    if($valid == 0 && $price > 0){
+        $sql = "UPDATE users SET valid_team = valid_team + 1  WHERE refer_code = '$referred_by'";
+        $db->sql($sql);
+        $sql = "UPDATE users SET valid = 1  WHERE id = $user_id";
+        $db->sql($sql);
+    }
 
     $sql = "UPDATE users SET recharge = recharge - $price, total_assets = total_assets + $price WHERE id = $user_id";
     $db->sql($sql);
+
+
 
     if($refer_code){
         $sql = "SELECT * FROM users WHERE refer_code = '$referred_by'";
@@ -106,8 +115,8 @@ if ($recharge >= $price) {
     $sql_insert_user_plan = "INSERT INTO user_plan (`user_id`,`plan_id`,`joined_date`) VALUES ('$user_id','$plan_id','$date')";
     $db->sql($sql_insert_user_plan);
 
-     $sql_insert_transaction = "INSERT INTO transactions (`user_id`, `amount`, `datetime`, `type`) VALUES ('$user_id', '$price', '$datetime', 'start_production')";
-     $db->sql($sql_insert_transaction);
+    $sql_insert_transaction = "INSERT INTO transactions (`user_id`, `amount`, `datetime`, `type`) VALUES ('$user_id', '$price', '$datetime', 'start_production')";
+    $db->sql($sql_insert_transaction);
 
     $response['success'] = true;
     $response['message'] = "Production Started Successfully";
