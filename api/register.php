@@ -108,7 +108,7 @@ if ($num >= 1) {
     $sql = "INSERT INTO users (`mobile`,`name`,`referred_by`,`account_num`,`holder_name`,`bank`,`branch`,`ifsc`,`device_id`,`age`,`city`,`email`,`state`,`registered_datetime`,`refer_code`) VALUES ('$mobile','$name','$referred_by','','','','','','$device_id','$age','$city','$email','$state','$datetime','$refer_code')";
     $db->sql($sql);
 
-    $sql_query = "UPDATE users SET team_size = team_size + 1 WHERE refer_code =  '$refer_code'";
+    $sql_query = "UPDATE users SET team_size = team_size + 1 WHERE refer_code =  '$referred_by'";
     $db->sql($sql_query);
     
 
