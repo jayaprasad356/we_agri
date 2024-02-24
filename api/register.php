@@ -70,7 +70,7 @@ $age = $db->escapeString($_POST['age']);
 $city = $db->escapeString($_POST['city']);
 $email = $db->escapeString($_POST['email']);
 $state = $db->escapeString($_POST['state']);
-
+$datetime = date('Y-m-d H:i:s');
 $sql = "SELECT * FROM users WHERE mobile='$mobile'";
 $db->sql($sql);
 $res = $db->getResult();
