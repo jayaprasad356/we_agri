@@ -373,6 +373,15 @@ if (isset($_GET['table']) && $_GET['table'] == 'user_plan') {
     $where = '';
     $sort = 'id';
     $order = 'DESC';
+
+    if (isset($_GET['products']) && $_GET['products'] != '') {
+        $products = $db->escapeString($fn->xss_clean($_GET['products']));
+        $where .= " AND p.products = '$products'";
+    }
+    if ((isset($_GET['joined_date']) && $_GET['joined_date'] != '')) {
+        $joined_date = $db->escapeString($fn->xss_clean($_GET['joined_date']));
+        $where .= " AND l.joined_date = '$joined_date'";
+    }
     if (isset($_GET['offset']))
         $offset = $db->escapeString($_GET['offset']);
     if (isset($_GET['limit']))
@@ -395,8 +404,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'user_plan') {
             $total = $row['total'];
         }
         
-        $sql = "SELECT l.id AS id, l.*, u.name AS user_name, u.mobile AS user_mobile, p.products
-         AS plan_products FROM `user_plan` l " . $join . " ORDER BY $sort $order LIMIT $offset, $limit";
+        $sql = "SELECT l.id AS id, l.*, u.name AS user_name, u.mobile AS user_mobile, p.products AS plan_products, p.price AS plan_price, p.daily_quantity AS plan_daily_quantity, p.unit AS plan_unit, p.daily_income AS plan_daily_income, p.monthly_income AS plan_monthly_income, p.invite_bonus AS plan_invite_bonus FROM `user_plan` l " . $join . " ORDER BY $sort $order LIMIT $offset, $limit";
         $db->sql($sql);
         $res = $db->getResult();
         
@@ -409,17 +417,20 @@ if (isset($_GET['table']) && $_GET['table'] == 'user_plan') {
 
 
         
-        $operate = ' <a href="edit-user_plan.php?id=' . $row['id'] . '"><i class="fa fa-edit"></i>Edit</a>';
-        $operate .= ' <a class="text text-danger" href="delete-user_plan.php?id=' . $row['id'] . '"><i class="fa fa-trash"></i>Delete</a>';
+        //$operate = ' <a href="edit-user_plan.php?id=' . $row['id'] . '"><i class="fa fa-edit"></i>Edit</a>';
+        $operate = ' <a class="text text-danger" href="delete-user_plan.php?id=' . $row['id'] . '"><i class="fa fa-trash"></i>Delete</a>';
         $tempRow['id'] = $row['id'];
         $tempRow['user_name'] = $row['user_name'];
         $tempRow['user_mobile'] = $row['user_mobile'];
         $tempRow['plan_products'] = $row['plan_products'];
-        $tempRow['days'] = $row['days'];
-        $tempRow['price'] = $row['price'];
-        $tempRow['daily_income'] = $row['daily_income'];
-        $tempRow['monthly_income'] = $row['monthly_income'];
-        $tempRow['daily_quantity'] = $row['daily_quantity'];
+        $tempRow['plan_price'] = $row['plan_price'];
+        $tempRow['plan_daily_quantity'] = $row['plan_daily_quantity'];
+        $tempRow['plan_unit'] = $row['plan_unit'];
+        $tempRow['plan_daily_income'] = $row['plan_daily_income'];
+        $tempRow['plan_monthly_income'] = $row['plan_monthly_income'];
+        $tempRow['plan_invite_bonus'] = $row['plan_invite_bonus'];
+        $tempRow['income'] = $row['income'];
+        $tempRow['joined_date'] = $row['joined_date'];
         $tempRow['operate'] = $operate;
         $rows[] = $tempRow;
     }
