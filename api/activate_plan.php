@@ -122,7 +122,7 @@ if ($recharge >= $price) {
     $response['message'] = "Production Started Successfully";
  }else {
     $response['success'] = false;
-    $response['message'] = "Insufficient balance to apply for this plan";
+    $response['message'] = "Insufficient balance to start this production";
 }
 
 print_r(json_encode($response));
