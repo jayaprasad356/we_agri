@@ -1,9 +1,7 @@
 
 <section class="content-header">
     <h1>User Plan /<small><a href="home.php"><i class="fa fa-home"></i> Home</a></small></h1>
-    <ol class="breadcrumb">
-                <a class="btn btn-block btn-default" href="add-user_plan.php"><i class="fa fa-plus-square"></i> Add New User Plan</a>
-</ol>
+  
 </section>
     <!-- Main content -->
     <section class="content">
@@ -13,6 +11,27 @@
             <div class="col-xs-12">
                 <div class="box">
                     <div class="box-header">
+                    <div class="row">
+                    <div class="form-group col-md-3">
+                         <h4 class="box-title">Filter by Plan</h4>
+                          <select id='products' name="products" class='form-control'>
+                          <option value=''>Select All</option>
+                            <?php
+                            $sql = "SELECT products FROM `plan` GROUP BY products ORDER BY id"; // Modified to group by 'products' column
+                             $db->sql($sql);
+                            $result = $db->getResult();
+                              foreach ($result as $value) {
+                                  ?>
+                                 <option value='<?= $value['products'] ?>'><?= $value['products'] ?></option>
+                               <?php } ?>
+                             </select>
+                          </div>
+                          <div class="col-md-3">
+                                <h4 class="box-title">Joined Date </h4>
+                                <input type="date" class="form-control" id="joined_date" name="joined_date" value="<?php echo (isset($_GET['basic_joined_date'])) ? $_GET['basic_joined_date'] : "" ?>"></input>
+                        </div>
+                     </div>
+                            
                       
                     
                     <div  class="box-body table-responsive">
@@ -26,11 +45,14 @@
                                     <th data-field="user_name" data-sortable="true">User Name</th>
                                     <th data-field="user_mobile" data-sortable="true">User Mobile</th>
                                     <th data-field="plan_products" data-sortable="true">Products</th>
-                                    <th data-field="days" data-sortable="true">Days</th>
-                                    <th  data-field="price" data-sortable="true">Price</th>
-                                    <th data-field="daily_income" data-sortable="true">Daily Income</th>
-                                    <th  data-field="monthly_income" data-sortable="true">Monthly Income</th>
-                                    <th data-field="daily_quantity" data-sortable="true">Daily Quantity</th>
+                                    <th data-field="plan_price" data-sortable="true">Price</th>
+                                    <th data-field="plan_daily_income" data-sortable="true">Daily Income</th>
+                                    <th data-field="plan_monthly_income" data-sortable="true">Monthly Income</th>
+                                    <th data-field="plan_daily_quantity" data-sortable="true">Daily Quantity</th>
+                                    <th data-field="plan_unit" data-sortable="true">Unit</th>
+                                    <th data-field="plan_invite_bonus" data-sortable="true">Invite Bonus</th>
+                                    <th data-field="income" data-sortable="true">Income</th>
+                                    <th data-field="joined_date" data-sortable="true">Joined Date</th>
                                     <th  data-field="operate" data-events="actionEvents">Action</th>
                                 </tr>
                             </thead>
@@ -47,12 +69,20 @@
     $('#date').on('change', function() {
         $('#users_table').bootstrapTable('refresh');
     });
+    $('#products').on('change', function() {
+        $('#users_table').bootstrapTable('refresh');
+    });
+    $('#joined_date').on('change', function() {
+        $('#users_table').bootstrapTable('refresh');
+    });
+   
    
 
     function queryParams(p) {
         return {
             "date": $('#date').val(),
-        
+            "products": $('#products').val(),
+            "joined_date": $('#joined_date').val(),
             limit: p.limit,
             sort: p.sort,
             order: p.order,

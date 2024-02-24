@@ -201,6 +201,12 @@ $fn = new custom_functions;
                    </ul>
                 </li>
                 <li class="treeview">
+                    <a href="settings.php">
+                        <i class="fa fa-gear"></i>
+                        <span>Setting</span>
+                    </a>
+                </li>
+                <li class="treeview">
                     <a href="app-update.php">
                         <i class="fa fa-bullseye"></i>
                         <span>App Update</span>

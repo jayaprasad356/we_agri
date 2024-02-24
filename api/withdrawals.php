@@ -39,6 +39,16 @@ $amount = $db->escapeString($_POST['amount']);
 $datetime = date('Y-m-d H:i:s');
 $dayOfWeek = date('w', strtotime($datetime));
 
+$sql = "SELECT * FROM settings";
+$db->sql($sql);
+$settings = $db->getResult();
+
+
+$sql = "SELECT * FROM settings WHERE id=1";
+$db->sql($sql);
+$result = $db->getResult();
+$min_withdrawal = $result[0]['min_withdrawal'];
+
 $sql = "SELECT * FROM users WHERE id='$user_id'";
 $db->sql($sql);
 $res = $db->getResult();
@@ -59,7 +69,7 @@ if (!isBetween10AMand6PM()) {
     print_r(json_encode($response));
     return false;
 }
-
+if ($amount >= $min_withdrawal) {
     if ($amount <= $balance) {
         if ($account_num == '') {
             $response['success'] = false;
@@ -70,7 +80,7 @@ if (!isBetween10AMand6PM()) {
 
             $sql = "INSERT INTO withdrawals (`user_id`,`amount`,`balance`,`status`,`datetime`) VALUES ('$user_id','$amount',$balance,0,'$datetime')";
             $db->sql($sql);
-            $sql = "UPDATE users SET balance = balance - '$amount' WHERE id='$user_id'";
+            $sql = "UPDATE users SET balance = balance - '$amount',total_withdrawal = total_withdrawal + '$amount' WHERE id='$user_id'";
             $db->sql($sql);
 
             $sql = "SELECT * FROM withdrawals WHERE user_id = $user_id";
@@ -87,10 +97,14 @@ if (!isBetween10AMand6PM()) {
             $response['data']['userDetails'] = $userDetails;
             print_r(json_encode($response));
         }
-        } else {
-            $response['success'] = false;
-            $response['message'] = "Insufficient Balance";
-            print_r(json_encode($response));
-        }
-    
+    } else {
+        $response['success'] = false;
+        $response['message'] = "Insufficient Balance";
+        print_r(json_encode($response));
+    }
+} else {
+    $response['success'] = false;
+    $response['message'] = "Minimum Withdrawal Amount is $min_withdrawal";
+    print_r(json_encode($response));
+}
     ?>

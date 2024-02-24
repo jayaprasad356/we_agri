@@ -22,11 +22,8 @@ if (isset($_POST['btnEdit'])) {
     $daily_income = $db->escapeString(($_POST['daily_income']));
     $monthly_income = $db->escapeString(($_POST['monthly_income']));
 	$invite_bonus = $db->escapeString(($_POST['invite_bonus']));
-	$error = array();
-
-    if (!empty($products) && !empty($price) && !empty($daily_quantity) && !empty($unit) && !empty($daily_income) && !empty($monthly_income)&& !empty($invite_bonus)) 
-    {
-		$sql_query = "UPDATE plan SET products='$products',price='$price',daily_quantity='$daily_quantity',unit='$unit',daily_income='$daily_income',monthly_income='$monthly_income',invite_bonus='$invite_bonus' WHERE id =  $ID";
+	
+		$sql_query = "UPDATE plan SET products='$products',price='$price',daily_quantity='$daily_quantity',daily_income='$daily_income',monthly_income='$monthly_income',invite_bonus='$invite_bonus',unit='$unit' WHERE id =  $ID";
 		$db->sql($sql_query);
 		$result = $db->getResult();             
 		if (!empty($result)) {
@@ -34,9 +31,9 @@ if (isset($_POST['btnEdit'])) {
 		} else {
 			$error['update_languages'] = " <span class='label label-success'>Plans Updated Successfully</span>";
 		}
-	
 		if ($_FILES['image']['size'] != 0 && $_FILES['image']['error'] == 0 && !empty($_FILES['image'])) {
-		
+			//image isn't empty and update the image
+			$old_image = $db->escapeString($_POST['old_image']);
 			$extension = pathinfo($_FILES["image"]["name"])['extension'];
 	
 			$result = $fn->validate_image($_FILES["image"]);
@@ -71,7 +68,6 @@ if (isset($_POST['btnEdit'])) {
 			}
 		}
 	}
-}
 
 
 // create array variable to store previous data
@@ -107,6 +103,8 @@ if (isset($_POST['btnCancel'])) { ?>
 				<!-- form start -->
 				<form id="edit_languages_form" method="post" enctype="multipart/form-data">
 					<div class="box-body">
+					<div class="box-body">
+                    <input type="hidden" name="old_image" value="<?php echo isset($res[0]['image']) ? $res[0]['image'] : ''; ?>">
 				    	<div class="row">
 					  	  <div class="form-group">
                                <div class="col-md-6">
@@ -146,14 +144,14 @@ if (isset($_POST['btnCancel'])) { ?>
                             </div>
                          </div>
 						 <br>
-						<div class="row">
-						 <div class="form-group">
-                                   <div class="col-md-6">
+						 <div class="row">
+                            <div class="form-group">
+                                <div class="col-md-6">
                                     <label for="exampleInputFile">Image</label> <i class="text-danger asterik">*</i><?php echo isset($error['image']) ? $error['image'] : ''; ?>
                                     <input type="file" name="image" onchange="readURL(this);" accept="image/png, image/jpeg" id="image" /><br>
                                     <img id="blah" src="<?php echo $res[0]['image']; ?>" alt="" width="150" height="200" <?php echo empty($res[0]['image']) ? 'style="display: none;"' : ''; ?> />
-                                  </div>
-                               </div>
+                                </div>
+                            </div>
 							   <div class="col-md-6">
 									<label for="exampleInputEmail1">Unit</label><i class="text-danger asterik">*</i>
 									<input type="text" class="form-control" name="unit" value="<?php echo $res[0]['unit']; ?>">
@@ -173,3 +171,20 @@ if (isset($_POST['btnCancel'])) { ?>
 <div class="separator"> </div>
 <?php $db->disconnect(); ?>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
+<script>
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#blah')
+                    .attr('src', e.target.result)
+                    .width(150)
+                    .height(200)
+                    .css('display', 'block');
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
