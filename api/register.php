@@ -71,6 +71,7 @@ $city = $db->escapeString($_POST['city']);
 $email = $db->escapeString($_POST['email']);
 $state = $db->escapeString($_POST['state']);
 $c_referred_by = '';
+$d_referred_by = '';
 $datetime = date('Y-m-d H:i:s');
 $sql = "SELECT * FROM users WHERE mobile='$mobile'";
 $db->sql($sql);
@@ -159,7 +160,7 @@ if ($num >= 1) {
     }
 
 
-    $d_referred_by = '';
+
     $sql = "INSERT INTO users (`mobile`,`name`,`referred_by`,`c_referred_by`,`d_referred_by`,`account_num`,`holder_name`,`bank`,`branch`,`ifsc`,`device_id`,`age`,`city`,`email`,`state`,`registered_datetime`,`refer_code`) VALUES ('$mobile','$name','$referred_by','$c_referred_by','$d_referred_by','','','','','','$device_id','$age','$city','$email','$state','$datetime','$refer_code')";
     $db->sql($sql);
 
