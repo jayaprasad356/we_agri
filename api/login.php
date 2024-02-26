@@ -26,17 +26,25 @@ if (empty($_POST['device_id'])) {
     print_r(json_encode($response));
     return false;
 }
+if (empty($_POST['otp'])) {
+    $response['success'] = false;
+    $response['message'] = "Otp is Empty";
+    print_r(json_encode($response));
+    return false;
+}
 
 $device_id = $db->escapeString($_POST['device_id']);
 $mobile = $db->escapeString($_POST['mobile']);
 
-$sql = "SELECT * FROM users WHERE mobile = '$mobile'";
+
+
+$sql = "SELECT * FROM otp WHERE mobile = '$mobile' AND otp = '$otp'";
 $db->sql($sql);
 $user = $db->getResult();
 
 if (empty($user)) {
     $response['success'] = false;
-    $response['message'] = "Your Mobile Number is not Registered";
+    $response['message'] = "Invalid Otp";
     print_r(json_encode($response));
     return false;
 }
