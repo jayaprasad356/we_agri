@@ -38,7 +38,7 @@ if ($num >= 1) {
     $refer_code = $res_user[0]['refer_code'];
 
     if ($level === 'b') {
-        $sql = "SELECT *,DATE(registered_datetime) AS regitered_date FROM users WHERE referred_by = '$refer_code'";
+        $sql = "SELECT *,DATE(registered_datetime) AS registered_date FROM users WHERE referred_by = '$refer_code'";
         $db->sql($sql);
         $res = $db->getResult();
         $num = $db->numRows($res);
@@ -68,7 +68,7 @@ if ($num >= 1) {
             foreach ($res as $row) {
                 $refer_code = $row['refer_code'];
     
-                $sql = "SELECT *,DATE(registered_datetime) AS regitered_date FROM users WHERE referred_by = '$refer_code'";
+                $sql = "SELECT *,DATE(registered_datetime) AS registered_date FROM users WHERE referred_by = '$refer_code'";
                 $db->sql($sql);
                 $nested_res = $db->getResult();
                 $nested_num = $db->numRows($nested_res);
@@ -115,7 +115,7 @@ if ($num >= 1) {
                     foreach ($res as $row) {
                         $refer_code = $row['refer_code'];
             
-                        $sql = "SELECT *,DATE(registered_datetime) AS regitered_date FROM users WHERE referred_by = '$refer_code'";
+                        $sql = "SELECT *,DATE(registered_datetime) AS registered_date FROM users WHERE referred_by = '$refer_code'";
                         $db->sql($sql);
                         $nested_res = $db->getResult();
                         $nested_num = $db->numRows($nested_res);
