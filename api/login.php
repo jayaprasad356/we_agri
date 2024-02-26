@@ -35,7 +35,7 @@ if (empty($_POST['otp'])) {
 
 $device_id = $db->escapeString($_POST['device_id']);
 $mobile = $db->escapeString($_POST['mobile']);
-
+$otp = $db->escapeString($_POST['otp']);
 
 
 $sql = "SELECT * FROM otp WHERE mobile = '$mobile' AND otp = '$otp'";
