@@ -54,21 +54,16 @@ $db->sql($sql);
 $res = $db->getResult();
 $balance = $res[0]['balance'];
 $account_num = $res[0]['account_num'];
-$withdrawal_status = $res[0]['withdrawal_status'];
 
-if ($withdrawal_status == '0') {
-    $response['success'] = false;
-    $response['message'] = "Withdrawals are currently disabled for your account.";
-    print_r(json_encode($response));
-    return false;
-}
 
-if (!isBetween10AMand6PM()) {
-    $response['success'] = false;
-    $response['message'] = "Withdrawal time morning 10:00AM to 6PM";
-    print_r(json_encode($response));
-    return false;
-}
+
+
+// if (!isBetween10AMand6PM()) {
+//     $response['success'] = false;
+//     $response['message'] = "Withdrawal time morning 10:00AM to 6PM";
+//     print_r(json_encode($response));
+//     return false;
+// }
 if ($amount >= $min_withdrawal) {
     if ($amount <= $balance) {
         if ($account_num == '') {
