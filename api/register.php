@@ -126,40 +126,6 @@ if ($num >= 1) {
     }
     $refer_code = generateRandomString(6);
 
-    $sql = "SELECT refer_code FROM users WHERE referred_by = '$refer_code'";
-    $db->sql($sql);
-    $res = $db->getResult();
-    $num = $db->numRows($res);
-
-    if ($num >= 1) {
-        $response['success'] = true;
-        $response['message'] = "Users Listed Successfully";
-
-        foreach ($res as $row) {
-            $refer_code = $row['refer_code'];
-
-            $sql = "SELECT *,DATE(registered_datetime) AS regitered_date FROM users WHERE referred_by = '$refer_code'";
-            $db->sql($sql);
-            $nested_res = $db->getResult();
-            $nested_num = $db->numRows($nested_res);
-
-            if ($nested_num >= 1) {
-                $response['count'] = $nested_num;
-                $response['data'] = $nested_res;
-            }
-        }
-        if (empty($response['data'])) {
-            $response['success'] = false;
-            $response['message'] = "No Users found with the specified refer_code";
-        }
-        print_r(json_encode($response));
-    } else {
-        $response['success'] = false;
-        $response['message'] = "No Users found with the specified refer_code";
-        print_r(json_encode($response));
-    }
-
-
 
     $sql = "INSERT INTO users (`mobile`,`name`,`referred_by`,`c_referred_by`,`d_referred_by`,`account_num`,`holder_name`,`bank`,`branch`,`ifsc`,`device_id`,`age`,`city`,`email`,`state`,`registered_datetime`,`refer_code`) VALUES ('$mobile','$name','$referred_by','$c_referred_by','$d_referred_by','','','','','','$device_id','$age','$city','$email','$state','$datetime','$refer_code')";
     $db->sql($sql);
