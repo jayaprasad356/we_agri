@@ -56,7 +56,7 @@ if ($num >= 1) {
         }
     } 
     if ($level === 'c') {
-        $sql = "SELECT refer_code FROM users WHERE referred_by = '$refer_code'";
+        $sql = "SELECT *,DATE(registered_datetime) AS registered_date FROM users WHERE c_referred_by = '$refer_code'";
         $db->sql($sql);
         $res = $db->getResult();
         $num = $db->numRows($res);
@@ -64,81 +64,34 @@ if ($num >= 1) {
         if ($num >= 1) {
             $response['success'] = true;
             $response['message'] = "Users Listed Successfully";
-    
-            foreach ($res as $row) {
-                $refer_code = $row['refer_code'];
-    
-                $sql = "SELECT *,DATE(registered_datetime) AS registered_date FROM users WHERE referred_by = '$refer_code'";
-                $db->sql($sql);
-                $nested_res = $db->getResult();
-                $nested_num = $db->numRows($nested_res);
-    
-                if ($nested_num >= 1) {
-                    $response['count'] = $nested_num;
-                    $response['data'] = $nested_res;
-                }
-            }
-            if (empty($response['data'])) {
-                $response['success'] = false;
-                $response['message'] = "No Users found with the specified refer_code";
-            }
+            $response['count'] = $num;
+            $response['data'] = $res;
             print_r(json_encode($response));
         } else {
             $response['success'] = false;
-            $response['message'] = "No Users found with the specified refer_code";
+            $response['message'] = "Not Found";
             print_r(json_encode($response));
         }
-    }
+    } 
+
     if ($level === 'd') {
-        $sql = "SELECT refer_code FROM users WHERE referred_by = '$refer_code'";
+        $sql = "SELECT *,DATE(registered_datetime) AS registered_date FROM users WHERE d_referred_by = '$refer_code'";
         $db->sql($sql);
         $res = $db->getResult();
         $num = $db->numRows($res);
     
         if ($num >= 1) {
             $response['success'] = true;
-            $response['message'] = "Users Listed Successfully for Level D";
-            $response['data'] = array();
-    
-            foreach ($res as $row) {
-                $refer_code = $row['refer_code'];
-    
-                $sql = "SELECT * FROM users WHERE referred_by = '$refer_code'";
-                $db->sql($sql);
-                $num = $db->getResult();
-                $num = $db->numRows($num);
-    
-                if ($num >= 1) {
-                    $response['success'] = true;
-                    $response['message'] = "Users Listed Successfully for Level D";
-            
-                    foreach ($res as $row) {
-                        $refer_code = $row['refer_code'];
-            
-                        $sql = "SELECT *,DATE(registered_datetime) AS registered_date FROM users WHERE referred_by = '$refer_code'";
-                        $db->sql($sql);
-                        $nested_res = $db->getResult();
-                        $nested_num = $db->numRows($nested_res);
-            
-                        if ($nested_num >= 1) {
-                            $response['count'] = $nested_num;
-                            $response['data'] = $nested_res;
-                        }
-                    }
-                }
-            }
-    
-            if (empty($response['data'])) {
-                $response['success'] = false;
-                $response['message'] = "No Users found with the specified refer_code for Level D";
-            }
-    
+            $response['message'] = "Users Listed Successfully";
+            $response['count'] = $num;
+            $response['data'] = $res;
             print_r(json_encode($response));
         } else {
             $response['success'] = false;
-            $response['message'] = "No Users found with the specified refer_code for Level D";
+            $response['message'] = "Not Found";
             print_r(json_encode($response));
         }
+
     }
     
     
