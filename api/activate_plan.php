@@ -47,18 +47,18 @@ if (empty($user)) {
 }
 
 
-// $sql = "SELECT * FROM plan WHERE id = $plan_id ";
-// $db->sql($sql);
-// $plan = $db->getResult();
+$sql = "SELECT * FROM plan WHERE id = $plan_id ";
+$db->sql($sql);
+$plan = $db->getResult();
 
-// if (empty($plan)) {
-//     $response['success'] = false;
-//     $response['message'] = "Plan not found";
-//     print_r(json_encode($response));
-//     return false;
-// }
+if (empty($plan)) {
+    $response['success'] = false;
+    $response['message'] = "Plan not found";
+    print_r(json_encode($response));
+    return false;
+}
 
-// $t_products = $plan[0]['products'];
+$products = $plan[0]['products'];
 
 $invite_bonus = $plan[0]['invite_bonus'];
 $price = $plan[0]['price'];
@@ -93,13 +93,15 @@ $res1 = $db->getResult();
 if (!empty($res1)) {
     $t_products = $res1[0]['products'];
 }
+
 $sql_check = "SELECT * FROM user_plan up LEFT JOIN `users` u ON up.user_id = u.id WHERE up.referred_by = '$referred_by' AND up.plan_id = $t_plan_id";
 $db->sql($sql_check);
 $res_check_user = $db->getResult();
+$num = $db->numRows($res_check_user);
 
-if (!empty($res_check_user)) {
+if ($num < 5 && $plan_id <= 2) {
     $response['success'] = false;
-    $response['message'] = "To unlock ".$products." plan invite 5 members in ".$products." plan";
+    $response['message'] = "To unlock ".$products." plan invite 5 members in ".$t_products." plan";
     print_r(json_encode($response));
     return false;
 }
