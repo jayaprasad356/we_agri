@@ -99,7 +99,7 @@ $db->sql($sql_check);
 $res_check_user = $db->getResult();
 $num = $db->numRows($res_check_user);
 
-if ($num < 5 && $plan_id <= 2) {
+if ($num < 5 && $plan_id > 2) {
     $response['success'] = false;
     $response['message'] = "To unlock ".$products." plan invite 5 members in ".$t_products." plan";
     print_r(json_encode($response));
