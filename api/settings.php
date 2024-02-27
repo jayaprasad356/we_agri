@@ -27,6 +27,7 @@ if ($num >= 1){
         $temp['max_withdrawal'] = $row['max_withdrawal'];
         $temp['min_withdrawal'] = $row['min_withdrawal'];
         $temp['withdrawal_ins'] = $row['withdrawal_ins'];
+        $temp['pay_video'] = $row['pay_video'];
 
         $rows[] = $temp;
     }

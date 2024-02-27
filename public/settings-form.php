@@ -11,10 +11,11 @@ if (isset($_POST['btnUpdate'])) {
     $telegram_channel = $db->escapeString(($_POST['telegram_channel']));
     $min_withdrawal = $db->escapeString(($_POST['min_withdrawal']));
     $max_withdrawal = $db->escapeString(($_POST['max_withdrawal']));
+    $pay_video = $db->escapeString(($_POST['pay_video']));
     
 
             $error = array();
-            $sql_query = "UPDATE settings SET whatsapp_group='$whatsapp_group',telegram_channel='$telegram_channel',min_withdrawal='$min_withdrawal',max_withdrawal='$max_withdrawal' WHERE id=1";
+            $sql_query = "UPDATE settings SET whatsapp_group='$whatsapp_group',telegram_channel='$telegram_channel',min_withdrawal='$min_withdrawal',max_withdrawal='$max_withdrawal',pay_video='$pay_video' WHERE id=1";
             $db->sql($sql_query);
             $result = $db->getResult();
             if (!empty($result)) {
@@ -84,6 +85,12 @@ $res = $db->getResult();
                                     <div class="form-group">
                                         <label for="">Max Withdrawal</label><br>
                                         <input type="number" class="form-control" name="max_withdrawal" value="<?= $res[0]['max_withdrawal'] ?>">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="">Pay Video</label><br>
+                                        <input type="text" class="form-control" name="pay_video" value="<?= $res[0]['pay_video'] ?>">
                                     </div>
                                 </div>
 								
