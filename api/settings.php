@@ -26,6 +26,7 @@ if ($num >= 1){
         $temp['telegram_channel'] = $row['telegram_channel'];
         $temp['max_withdrawal'] = $row['max_withdrawal'];
         $temp['min_withdrawal'] = $row['min_withdrawal'];
+        $temp['withdrawal_ins'] = $row['withdrawal_ins'];
 
         $rows[] = $temp;
     }
